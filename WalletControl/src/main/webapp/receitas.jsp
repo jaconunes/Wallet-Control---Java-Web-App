@@ -36,7 +36,14 @@
         </header>
         <section class="mt-5">
             <div class="container">
-                <form action="adicionarReceita" method="post">
+            <% 
+                            String mensagem = (String) request.getAttribute("mensagem");
+                            
+                            		if(mensagem != null)
+                            			out.print(mensagem);
+                            		
+                        %>
+                <form action="adicionar-listar" method="post">
                     <div class="form-row">
                         <div class="col">
                             <button type="submit" class="botao-receita" name="adicionarReceita">

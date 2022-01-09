@@ -68,13 +68,6 @@
                         </div>
                         <button type="submit" class="btn btn-success">Salvar Alteração</button>
                         <input type="hidden" name="id" value="<% out.print(conta.getIdConta()); %>">
-                                        <% 
-                            String mensagem = (String) request.getAttribute("mensagem");
-                            
-                            		if(mensagem != null)
-                            			out.print(mensagem);
-                            		
-                        %>
                 </form>
             </div>
 

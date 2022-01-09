@@ -12,39 +12,111 @@ id="WebApp_ID" version="5.0">
   		<servlet-class>wallet.controller.cadastrarReceitaController</servlet-class>
   </servlet>
   <servlet>
+  		<servlet-name>cadastrarDespesa</servlet-name>
+  		<servlet-class>wallet.controller.cadastrarDespesaController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>cadastrarConta</servlet-name>
+  		<servlet-class>wallet.controller.cadastrarContaController</servlet-class>
+  </servlet>
+  <servlet>
   		<servlet-name>listarReceitas</servlet-name>
   		<servlet-class>wallet.controller.listarReceitasController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>listarDespesas</servlet-name>
+  		<servlet-class>wallet.controller.listarDespesasController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>listarContas</servlet-name>
+  		<servlet-class>wallet.controller.listarContasController</servlet-class>
   </servlet>
   <servlet>
   		<servlet-name>modificarReceitas</servlet-name>
   		<servlet-class>wallet.controller.modificarReceitasController</servlet-class>
   </servlet>
   <servlet>
+  		<servlet-name>modificarDespesas</servlet-name>
+  		<servlet-class>wallet.controller.modificarDespesasController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>modificarContas</servlet-name>
+  		<servlet-class>wallet.controller.modificarContasController</servlet-class>
+  </servlet>
+  <servlet>
   		<servlet-name>editarReceita</servlet-name>
   		<servlet-class>wallet.controller.editarReceitasController</servlet-class>
   </servlet>
   <servlet>
-  		<servlet-name>adicionarReceita</servlet-name>
+  		<servlet-name>editarDespesa</servlet-name>
+  		<servlet-class>wallet.controller.editarDespesasController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>editarConta</servlet-name>
+  		<servlet-class>wallet.controller.editarContasController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>adicionar-listar</servlet-name>
   		<servlet-class>wallet.controller.buscarContasSelectController</servlet-class>
+  </servlet>
+  <servlet>
+  		<servlet-name>transferirSaldo</servlet-name>
+  		<servlet-class>wallet.controller.transferirSaldoController</servlet-class>
   </servlet>
   <servlet-mapping>
   		<servlet-name>cadastrarReceita</servlet-name>
   		<url-pattern>/cadastrarReceita</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+  		<servlet-name>cadastrarDespesa</servlet-name>
+  		<url-pattern>/cadastrarDespesa</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>cadastrarConta</servlet-name>
+  		<url-pattern>/cadastrarConta</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
   		<servlet-name>listarReceitas</servlet-name>
   		<url-pattern>/listarReceitas</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>listarDespesas</servlet-name>
+  		<url-pattern>/listarDespesas</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>listarContas</servlet-name>
+  		<url-pattern>/listarContas</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   		<servlet-name>modificarReceitas</servlet-name>
   		<url-pattern>/modificarReceitas</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+  		<servlet-name>modificarDespesas</servlet-name>
+  		<url-pattern>/modificarDespesas</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>modificarContas</servlet-name>
+  		<url-pattern>/modificarContas</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
   		<servlet-name>editarReceita</servlet-name>
   		<url-pattern>/editarReceita</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  		<servlet-name>adicionarReceita</servlet-name>
-  		<url-pattern>/adicionarReceita</url-pattern>
+  		<servlet-name>editarDespesa</servlet-name>
+  		<url-pattern>/editarDespesa</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>editarConta</servlet-name>
+  		<url-pattern>/editarConta</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>adicionar-listar</servlet-name>
+  		<url-pattern>/adicionar-listar</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  		<servlet-name>transferirSaldo</servlet-name>
+  		<url-pattern>/transferirSaldo</url-pattern>
   </servlet-mapping>
 </web-app>

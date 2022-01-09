@@ -37,10 +37,9 @@
         <section class="text-center m-5">
             <h1>Cadastrar Conta</h1>
         </section>
-
         <section>
             <div class="container">
-                <form class="mb-5">
+                <form action="cadastrarConta" method="post" class="mb-5">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="inputValor">Saldo</label>
@@ -60,10 +59,9 @@
                             <input type="text" class="form-control" id="inputNomeInstituicao" placeholder="Nome da Instituição Financeira" name="inputNomeInstituicao" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Salvar Conta</button>
+                    <button type="submit" class="btn btn-success" name="salvarConta">Salvar Conta</button>
                 </form>
             </div>
-
         </section>
         <script type='text/javascript' src='js/bootstrap.min.js'></script>
     </body>

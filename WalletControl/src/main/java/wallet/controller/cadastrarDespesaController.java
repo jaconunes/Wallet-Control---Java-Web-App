@@ -10,19 +10,19 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import wallet.model.Receita;
+import wallet.model.Despesa;
 
 /**
- * Servlet implementation class cadastrarReceitaController
+ * Servlet implementation class cadastrarDespesaController
  */
-public class cadastrarReceitaController extends HttpServlet {
+public class cadastrarDespesaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. 
      */
-    public cadastrarReceitaController() {
-        
+    public cadastrarDespesaController() {
+        super();
     }
 
 	/**
@@ -41,25 +41,24 @@ public class cadastrarReceitaController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");		
 		
-		SimpleDateFormat formatoDataRecebimento = new SimpleDateFormat("yyyy-MM-dd"); 
-		SimpleDateFormat formatoDataRecebimentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
 		double valor;
-		String parametroDataRecebimento = request.getParameter("inputRecebimento");
-		String parametroDataRecebimentoEsperado = request.getParameter("inputRecebimentoEsperado");
-		Date dataRecebimento = null;
-		Date dataRecebimentoEsperado = null;
-		String descricao = request.getParameter("inputDescricao");
+		String parametroDataPagamento = request.getParameter("inputPagamento");
+		String parametroDataPagamentoEsperado = request.getParameter("inputPagamentoEsperado");
+		Date dataPagamento = null;
+		Date dataPagamentoEsperado = null;
 		String conta = request.getParameter("inputConta");
-		String tipoReceita = request.getParameter("inputTipoReceita");
+		String tipoDespesa = request.getParameter("inputTipoDespesa");
 		String mensagem;
 		try {
-			dataRecebimento = formatoDataRecebimento.parse(parametroDataRecebimento);
+			dataPagamento = formatoDataPagamento.parse(parametroDataPagamento);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		
 		try {
-			dataRecebimentoEsperado = formatoDataRecebimentoEsperado.parse(parametroDataRecebimentoEsperado);
+			dataPagamentoEsperado = formatoDataPagamentoEsperado.parse(parametroDataPagamentoEsperado);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -67,16 +66,17 @@ public class cadastrarReceitaController extends HttpServlet {
 		
 		
 		
-		if(request.getParameter("inputValor") != null && dataRecebimento != null 
-				&& dataRecebimentoEsperado != null && descricao != null && conta != null && tipoReceita != null) {
+		if(request.getParameter("inputValor") != null && dataPagamento != null 
+				&& dataPagamentoEsperado != null && conta != null && tipoDespesa != null) {
 			
 			valor = Double.parseDouble(request.getParameter("inputValor"));	
 			
-			Receita receita = new Receita(valor, dataRecebimento, dataRecebimentoEsperado, descricao, conta, tipoReceita);
-			receita.salvar();
+			Despesa despesa = new Despesa( valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, conta );
+			despesa.salvar();
 			
-			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita cadastrada com sucesso!</div>";			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("receitas.jsp");
+			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa cadastrada com sucesso!</div>";
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("despesas.jsp");
 			request.setAttribute("mensagem", mensagem);			
 			dispatcher.forward(request, response);
 			
@@ -85,7 +85,8 @@ public class cadastrarReceitaController extends HttpServlet {
 			mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">\r\n"
 					+ "Preencha todas as informações!\r\n"
 					+ "</div>";	
-						
+			
+			
 		}
 		
 		

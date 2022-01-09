@@ -41,17 +41,27 @@ public class buscarContasSelectController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");		
 		
-		String botaoAdicionar = request.getParameter("adicionarReceita");
-		String botaoListar = request.getParameter("listarReceitas");
+		String botaoAdicionarReceita = request.getParameter("adicionarReceita");
+		String botaoAdicionarDespesa = request.getParameter("adicionarDespesa");
+		String botaoListarReceitas = request.getParameter("listarReceitas");
+		String botaoListarDespesas = request.getParameter("listarDespesas");
 		ArrayList<Conta> contas = null;
 		
-		if(botaoAdicionar != null ) {			
+		if(botaoAdicionarReceita != null ) {			
 			contas = new Conta().listarContas();
 			request.setAttribute("listaContas", contas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarReceita.jsp");
 			dispatcher.forward(request, response);			
-		} else if(botaoListar != null) {
+		} else if(botaoAdicionarDespesa != null ) {
+			contas = new Conta().listarContas();
+			request.setAttribute("listaContas", contas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarDespesa.jsp");
+			dispatcher.forward(request, response);		
+		} else if(botaoListarReceitas != null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
+			dispatcher.forward(request, response);	
+		} else if(botaoListarDespesas != null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
 			dispatcher.forward(request, response);	
 		}
 	}

@@ -36,16 +36,23 @@
         </header>
         <section class="mt-5">
             <div class="container">
-                <form action="adicionarDespesa" method="post">
+            <% 
+                            String mensagem = (String) request.getAttribute("mensagem");
+                            
+                            		if(mensagem != null)
+                            			out.print(mensagem);
+                            		
+                        %>
+                <form action="adicionar-listar" method="post">
                     <div class="form-row">
                         <div class="col">
-                            <button type="submit" class="botao-receita" name="adicionarReceita">
+                            <button type="submit" class="botao-receita" name="adicionarDespesa">
                             <img class="icons" src="img/despesas.png" alt="Adicionar Receita">
                                         <h2>Adicionar Despesa</h2>
                         </button>
                         </div>
                         <div class="col">
-                            <button type="submit" class="botao-receita" name="listarReceitas">
+                            <button type="submit" class="botao-receita" name="listarDespesas">
                             <img class="icons" src="img/lista-receitas.png" alt="Listar Receitas">
                                         <h2>Listar Despesas</h2>
                         </button>

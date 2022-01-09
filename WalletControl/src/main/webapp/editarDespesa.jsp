@@ -69,7 +69,7 @@
                                             <select id="inputTipoDespesa" class="form-control" name="inputTipoDespesa" required>
                                 <option class="text-dark"  selected><% out.print(despesa.getTipoDespesa()); %></option>
                                 			<option class="text-dark" >Alimentação</option>
-                                            <option class="text-dark" >Educação</option>Pagamento
+                                            <option class="text-dark" >Educação</option>
                                             <option class="text-dark" >Lazer</option>
                                             <option class="text-dark" >Moradia</option>
                                             <option class="text-dark" >Roupa</option>

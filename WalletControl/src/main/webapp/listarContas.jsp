@@ -25,7 +25,7 @@
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="contas.jsp">Contas</a>
+                                        <a class="nav-link" href="receitas.jsp">Receitas</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="despesas.jsp">Despesas</a>
@@ -63,7 +63,7 @@
                                 </thead>
                                 <tbody>
                                     <% 
-                                    String mensagem = (String) request.getAttribute("mensagem ");
+                                    String mensagem = (String) request.getAttribute("mensagem");
                             
                             		if(mensagem != null){
                             			out.print(mensagem);
@@ -71,17 +71,17 @@
                             			
                             		Double totalSoma = 0.0;
                                 
-                                    if(request.getAttribute("contas ") != null){
-                                        List<?> contas = (List<?>) request.getAttribute("contas ");
+                                    if(request.getAttribute("contas") != null){
+                                        List<?> contas = (List<?>) request.getAttribute("contas");
                                         for(int contador = 0; contador <= (contas.size() - 1); contador++){
                                             Conta conta = (Conta) contas.get(contador);
                                             totalSoma += conta.getSaldo();
                                 		%>
                                         <form action="modificarContas" method="post">
                                             <tr>
-                                                <th scope="row ">
+                                                <th scope="row">
                                                     <% out.print(conta.getIdConta()); %>
-                                                        <input type="hidden" name="idItemExcluido " value="<% out.print(conta.getIdConta()); %>">
+                                                        <input type="hidden" name="idItemExcluido" value="<% out.print(conta.getIdConta()); %>">
                                         </th>
                                         <td>
                                             <% 

@@ -37,6 +37,13 @@
 
         <section class="mt-5">
             <div class="container">
+            <% 
+                            String mensagem = (String) request.getAttribute("mensagem");
+                            
+                            		if(mensagem != null)
+                            			out.print(mensagem);
+                            		
+                        %>
                 <div class="row">
                     <div class="botoes-receitas text-center mt-5 col-md-6 col-12">
                         <div class="botao-receita">

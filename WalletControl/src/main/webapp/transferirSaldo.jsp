@@ -52,7 +52,7 @@
                                     %>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputSaldo">
+                                    <label for="inputSaldo" class="totalsoma vermelho">
                                                     <% 
                                                     DecimalFormat df = new DecimalFormat("###,###.00");
                                                     out.print("R$ "+ df.format(conta.getSaldo())); 
@@ -60,15 +60,16 @@
                                                 </label>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="inputInstituicaoFinanceira">
-                                                    <% out.print(conta.getInstituicaoFinanceira()); %>
-                                                </label>
+                                    <label for="inputInstituicaoFinanceira" class="totalsoma">
+                                                    <% out.print("Código: " + conta.getIdConta() + " - " + conta.getInstituicaoFinanceira()); %>
+                                     </label>
+                                     <input type="hidden" name="IdContaAtual" value="<% out.print(conta.getIdConta()); %>">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputDescricao">Selecione uma Conta:</label>
-                                    <select id="inputConta" class="form-control" name="selectConta" required>
+                                    <label for="inputDescricao">Conta Destino:</label>
+                                    <select id="inputConta" class="form-control" name="selectContaDestino" required>
                                                 <option class="text-dark" selected></option>
                                                 <%                                 
                                                 if(request.getAttribute("listaContas") != null){
@@ -76,7 +77,7 @@
                                                     for(int contador = 0; contador <= (contas.size() - 1); contador++){
                                                         Conta listaConta = (Conta) contas.get(contador);                                	
                                                 %>                                
-                                                <option class="text-dark" ><% out.print(listaConta.getIdConta()); %> - <% out.print(listaConta.getInstituicaoFinanceira()); %></option>                                
+                                                <option class="text-dark" value="<% out.print(listaConta.getIdConta()); %>" ><% out.print(listaConta.getIdConta()); %> - <% out.print(listaConta.getInstituicaoFinanceira()); %></option>                                
                                                 <%}}%>                                
                                             </select>
                                 </div>

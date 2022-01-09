@@ -74,5 +74,30 @@ public class Conta {
 	public ArrayList<Conta> listarContas(){	
 		return new ContaDao().ListarContas();
 	}
-
+	
+	public void salvar() {
+		new ContaDao().cadastrarConta(this);
+	}
+	
+	public void excluir(int idConta) {
+		new ContaDao().ExcluirConta(idConta);
+	}
+	
+	public Conta buscarContaPorId(int idConta) {
+		return new ContaDao().BuscarContaPorId(idConta);
+	}
+	
+	public void transferirSaldo(int idIdContaAtual, int idIdContaDestino, double saldoATransferir ) {
+		Conta contaAtual = new ContaDao().BuscarContaPorId(idIdContaAtual);
+		Conta contaDestino = new ContaDao().BuscarContaPorId(idIdContaDestino);		
+		double NovoSaldoContaAtual = contaAtual.getSaldo() - saldoATransferir;
+		double NovoSaldoContaDestino = contaDestino.getSaldo() + saldoATransferir;
+		
+		contaAtual.setSaldo(NovoSaldoContaAtual);
+		contaDestino.setSaldo(NovoSaldoContaDestino);
+		
+		new ContaDao().AlterarConta(contaAtual);
+		new ContaDao().AlterarConta(contaDestino);
+		
+	}
 }

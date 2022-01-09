@@ -29,6 +29,7 @@ public class ReceitaDao {
 			pStatement.setString(5, receita.getConta());
 			pStatement.setString(6, receita.getTipoReceita());			
 			pStatement.execute();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -52,9 +52,13 @@
                                             <label class="lb-filtroTipo" for="inputTipoDespesa">Filtro por Tipo:</label>
                                             <select id="inputTipoDespesa" class="form-control d-inline sel-filtro" name="inputTipoDespesa">
                                             <option class="text-dark"  selected></option>
-                                            <option class="text-dark" >Salário</option>
-                                            <option class="text-dark" >Presente</option>
-                                            <option class="text-dark" >Prêmio</option>
+                                            <option class="text-dark" >Alimentação</option>
+                                            <option class="text-dark" >Educação</option>
+                                            <option class="text-dark" >Lazer</option>
+                                            <option class="text-dark" >Moradia</option>
+                                            <option class="text-dark" >Roupa</option>
+                                            <option class="text-dark" >Saúde</option>
+                                            <option class="text-dark" >Transporte</option>
                                             <option class="text-dark" >Outros</option>
                                         </select>
                                             <button class="btn border border-white text-white" id="filtroPorTipo" type="submit" name="filtroPorTipo"><i class="fa fa-filter" aria-hidden="true"></i></button>
@@ -91,7 +95,7 @@
                             			
                             		Double totalSoma = 0.0;
                                 
-                                    if(request.getAttribute("receitas") != null){
+                                    if(request.getAttribute("despesas") != null){
                                         List<?> despesas = (List<?>) request.getAttribute("despesas");
                                         for(int contador = 0; contador <= (despesas.size() - 1); contador++){
                                             Despesa despesa = (Despesa) despesas.get(contador);

@@ -1,6 +1,9 @@
 package wallet.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import wallet.dao.DespesaDao;
 
 public class Despesa {
 	
@@ -97,5 +100,27 @@ public class Despesa {
 		this.conta = conta;
 	}
 	
+	public void salvar() {
+		new DespesaDao().cadastrarDespesa(this);
+	}
 	
+	public void excluir(int idDespesa) {
+		new DespesaDao().ExcluirDespesa(idDespesa);
+	}
+	
+	public ArrayList<Despesa> listarDespesas(){	
+		return new DespesaDao().ListarDespesas();
+	}
+	
+	public ArrayList<Despesa> buscarDespesasPorTipo(String tipoDespesa){
+		return new DespesaDao().buscarDespesasPorTipo(tipoDespesa);
+	}
+	
+	public ArrayList<Despesa> buscarDespesasPorPeriodo(String dataInicio, String dataFim){
+		return new DespesaDao().buscarDespesasPorPeriodo(dataInicio, dataFim);
+	}
+	
+	public Despesa buscarDespesaPorId(int idDespesa) {
+		return new DespesaDao().BuscarDespesaPorId(idDespesa);
+	}
 }
