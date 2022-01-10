@@ -12,64 +12,72 @@ import jakarta.servlet.http.HttpServletResponse;
 import wallet.model.Conta;
 
 /**
+ * Classe controladora captura o parâmetro dos botões clicados e realiza as
+ * ações de acordo com cada botão.
+ * 
  * Servlet implementation class modificarContasController
  */
 @WebServlet("/modificarContasController")
 public class modificarContasController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     *  @see HttpServlet#HttpServlet() 
-     */
-    public modificarContasController() {
-        super();
-    }
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		this.doPost(request, response);
-		
+	public modificarContasController() {
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Método DOPOST captura a ação na JSP de acordo com cada botão clicado realiza
+	 * uma ação, transferir, editar ou excluir.
+	 * 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		this.doPost(request, response);
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");	
-		
+		response.setContentType("text/html; charset=UTF-8");
+
 		String excluir = request.getParameter("excluir");
 		String editar = request.getParameter("editar");
-		String transferir = request.getParameter("transferir");		
+		String transferir = request.getParameter("transferir");
 		String id = request.getParameter("idItemExcluido");
 		ArrayList<Conta> contas = null;
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Conta excluída com sucesso!</div>";
-		
-			if(excluir != null && id != null) {
-				new Conta().excluir(Integer.valueOf(id));
-				request.setAttribute("mensagem", mensagem);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
-				dispatcher.forward(request, response);
-				System.out.println("Botão Excluir");
-			} else if(editar != null && id != null) {
-				Conta conta = new Conta().buscarContaPorId(Integer.valueOf(id));
-				request.setAttribute("conta", conta);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("editarConta.jsp");
-				dispatcher.forward(request, response);
-				System.out.println("Botão editar");
-			} else if(transferir != null && id != null) {
-				Conta conta = new Conta().buscarContaPorId(Integer.valueOf(id));
-				contas = new Conta().listarContas();
-				request.setAttribute("listaContas", contas);
-				request.setAttribute("conta", conta);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("transferirSaldo.jsp");
-				dispatcher.forward(request, response);
-				System.out.println("Botão transferir");
-			}
+
+		if (excluir != null && id != null) {
+			new Conta().excluir(Integer.valueOf(id));
+			request.setAttribute("mensagem", mensagem);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
+			dispatcher.forward(request, response);
+			System.out.println("Botão Excluir");
+		} else if (editar != null && id != null) {
+			Conta conta = new Conta().buscarContaPorId(Integer.valueOf(id));
+			request.setAttribute("conta", conta);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("editarConta.jsp");
+			dispatcher.forward(request, response);
+			System.out.println("Botão editar");
+		} else if (transferir != null && id != null) {
+			Conta conta = new Conta().buscarContaPorId(Integer.valueOf(id));
+			contas = new Conta().listarContas();
+			request.setAttribute("listaContas", contas);
+			request.setAttribute("conta", conta);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("transferirSaldo.jsp");
+			dispatcher.forward(request, response);
+			System.out.println("Botão transferir");
 		}
 	}
-
-
+}

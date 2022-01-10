@@ -11,47 +11,55 @@ import jakarta.servlet.http.HttpServletResponse;
 import wallet.model.Conta;
 
 /**
+ * Classe controlado chama o método resposável por transferir saldo de uma Conta
+ * para outra.
+ * 
  * Servlet implementation class transferirSaldoController
  */
 @WebServlet("/transferirSaldoController")
 public class transferirSaldoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     *  @see HttpServlet#HttpServlet() 
-     */
-    public transferirSaldoController() {
-        super();
-    }
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		this.doPost(request, response);
-		
+	public transferirSaldoController() {
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		this.doPost(request, response);
+
+	}
+
+	/**
+	 * Método DOPOST captura os parâmetros da tela de transferência de saldo, chama
+	 * o método responsável e realização a alteração.
+	 * 
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
-		int idIdContaAtual = Integer.valueOf(request.getParameter("IdContaAtual"));	
+
+		int idIdContaAtual = Integer.valueOf(request.getParameter("IdContaAtual"));
 		int idIdContaDestino = Integer.valueOf(request.getParameter("selectContaDestino"));
 		double saldoATransferir = Double.parseDouble(request.getParameter("inputSaldo"));
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Saldo transferido com sucesso!</div>";
-		
+
 		new Conta().transferirSaldo(idIdContaAtual, idIdContaDestino, saldoATransferir);
-		
-		request.setAttribute("mensagem", mensagem);		
+
+		request.setAttribute("mensagem", mensagem);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
 		dispatcher.forward(request, response);
-		
-		}
+
 	}
-
-
+}

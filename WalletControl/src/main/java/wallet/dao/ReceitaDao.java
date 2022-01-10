@@ -8,17 +8,31 @@ import java.util.ArrayList;
 
 import wallet.model.Receita;
 
+/**
+ * Classe DAO que representa a classe Receita e faz as devidas conexões com o
+ * banco de dados.
+ * 
+ * @author jaconunes
+ *
+ */
+
 public class ReceitaDao {
-	
+
+	/**
+	 * Método faz conexão com o banco de dados e realiza o cadastro de um objeto
+	 * Receita.
+	 * 
+	 * @param receita
+	 */
 	public void cadastrarReceita(Receita receita) {
-		
+
 		String sql = "INSERT INTO RECEITA VALUES (null,?,?,?,?,?,?)";
 		PreparedStatement pStatement = null;
-		Connection conn = null;		
-		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");  
-        String strDataRecebimento = formatoData.format(receita.getDataRecebimento());
-        String strDataRecebimentoEsperado = formatoData.format(receita.getDataRecebimentoEsperado());
-		
+		Connection conn = null;
+		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
+		String strDataRecebimento = formatoData.format(receita.getDataRecebimento());
+		String strDataRecebimentoEsperado = formatoData.format(receita.getDataRecebimentoEsperado());
+
 		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
@@ -27,38 +41,45 @@ public class ReceitaDao {
 			pStatement.setString(3, strDataRecebimentoEsperado);
 			pStatement.setString(4, receita.getDescricao());
 			pStatement.setInt(5, receita.getCodigoConta());
-			pStatement.setString(6, receita.getTipoReceita());			
+			pStatement.setString(6, receita.getTipoReceita());
 			pStatement.execute();
-			
+
 		} catch (Exception e) {
 			System.out.println("Deu erro aqui!");
 			e.printStackTrace();
-			
+
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
+
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
+	/**
+	 * Método faz conexão com o banco de dados e realiza a consulta pelo id
+	 * retornando um objeto Receita.
+	 * 
+	 * @param id
+	 * @return Receita
+	 */
 	public Receita BuscarReceitaPorId(int id) {
 		String sql = "SELECT * FROM RECEITA WHERE idReceita = ?";
 		ResultSet rs = null;
 		PreparedStatement pStatement = null;
 		Connection conn = null;
 		Receita receita = null;
-		try {			
+		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setInt(1, id);
@@ -77,33 +98,37 @@ public class ReceitaDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}			
+			}
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
-		
-		return receita;		
+
+		return receita;
 	}
-	
-	public ArrayList<Receita> ListarReceitas(){	
+
+	/**
+	 * Método faz conexão com o banco de dados e retorna uma lista de objetos
+	 * Receita.
+	 */
+	public ArrayList<Receita> ListarReceitas() {
 		String sql = "SELECT * FROM RECEITA";
 		ResultSet rs = null;
 		Connection conn = null;
 		PreparedStatement pStatement = null;
 		Receita receita = null;
 		ArrayList<Receita> receitas = null;
-		try {			
+		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
-			rs = pStatement.executeQuery();			
+			rs = pStatement.executeQuery();
 			if (rs != null) {
 				receitas = new ArrayList<Receita>();
 				while (rs.next()) {
@@ -115,41 +140,48 @@ public class ReceitaDao {
 					receita.setDescricao(rs.getString("descricao"));
 					receita.setCodigoConta(rs.getInt("codigoConta"));
 					receita.setTipoReceita(rs.getString("tipoReceita"));
-					receitas.add(receita);					
+					receitas.add(receita);
 				}
-			}			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}			
+			}
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		}		
+		}
 		return receitas;
-	}	
-	
-	public ArrayList<Receita> buscarReceitasPorTipo(String tipoReceita){
+	}
+
+	/**
+	 * Método faz conexão com o banco de dados, consulta pelo tipo e retorna uma
+	 * lista de objetos Receita.
+	 * 
+	 * @param tipoReceita
+	 * @return List Receita
+	 */
+	public ArrayList<Receita> buscarReceitasPorTipo(String tipoReceita) {
 		String sql = "SELECT * FROM RECEITA WHERE tipoReceita = ?";
 		ResultSet rs = null;
 		PreparedStatement pStatement = null;
 		Connection conn = null;
 		Receita receita = null;
 		ArrayList<Receita> receitas = null;
-		
-		try {			
+
+		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setString(1, tipoReceita);
-			rs = pStatement.executeQuery();		
+			rs = pStatement.executeQuery();
 			if (rs != null) {
 				receitas = new ArrayList<Receita>();
 				while (rs.next()) {
@@ -161,41 +193,49 @@ public class ReceitaDao {
 					receita.setDescricao(rs.getString("descricao"));
 					receita.setCodigoConta(rs.getInt("codigoConta"));
 					receita.setTipoReceita(rs.getString("tipoReceita"));
-					receitas.add(receita);					
+					receitas.add(receita);
 				}
-			}			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}			
+			}
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		}		
-		
+		}
+
 		return receitas;
 	}
 
-	public ArrayList<Receita> buscarReceitasPorPeriodo(String dataInicio, String dataFim){
-		String sql = "SELECT * FROM RECEITA WHERE (dataRecebimento BETWEEN '"+ dataInicio +"' AND '"+ dataFim + "')" ;		
+	/**
+	 * Método faz conexão com o banco de dados, consulta por periodo de datas e
+	 * retorna uma lista de objetos Receita.
+	 * 
+	 * @param dataInicio
+	 * @param dataFim
+	 * @return List Receita
+	 */
+	public ArrayList<Receita> buscarReceitasPorPeriodo(String dataInicio, String dataFim) {
+		String sql = "SELECT * FROM RECEITA WHERE (dataRecebimento BETWEEN '" + dataInicio + "' AND '" + dataFim + "')";
 		ResultSet rs = null;
 		PreparedStatement pStatement = null;
 		Connection conn = null;
 		Receita receita = null;
 		ArrayList<Receita> receitas = null;
-		
-		try {			
+
+		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
-			rs = pStatement.executeQuery();		
+			rs = pStatement.executeQuery();
 			if (rs != null) {
 				receitas = new ArrayList<Receita>();
 				while (rs.next()) {
@@ -207,34 +247,40 @@ public class ReceitaDao {
 					receita.setDescricao(rs.getString("descricao"));
 					receita.setCodigoConta(rs.getInt("codigoConta"));
 					receita.setTipoReceita(rs.getString("tipoReceita"));
-					receitas.add(receita);					
+					receitas.add(receita);
 				}
-			}	
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}			
+			}
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		}		
-		
+		}
+
 		return receitas;
 	}
-	
+
+	/**
+	 * Método faz conexão com o banco de dados e faz a exclusão de um objeto Receita
+	 * pelo id.
+	 * 
+	 * @param idReceita
+	 */
 	public void ExcluirReceita(int idReceita) {
 		String sql = "DELETE FROM RECEITA WHERE idReceita = ?";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
-		try {			
+		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setInt(1, idReceita);
@@ -243,31 +289,37 @@ public class ReceitaDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}			
+			}
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
+	/**
+	 * Método faz conexão com o banco de dados e faz a alteração de um objeto
+	 * Receita pelo id.
+	 * 
+	 * @param receita
+	 */
 	public void AlterarReceita(Receita receita) {
 		String sql = "UPDATE RECEITA SET valorReceita = ?, dataRecebimento = ?, "
 				+ "dataRecebimentoEsperado = ?, descricao = ?, codigoConta = ?, "
 				+ "tipoReceita = ? WHERE idReceita = ?";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
-		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");  
-        String strDataRecebimento = formatoData.format(receita.getDataRecebimento());
-        String strDataRecebimentoEsperado = formatoData.format(receita.getDataRecebimentoEsperado());
-		try {			
+		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
+		String strDataRecebimento = formatoData.format(receita.getDataRecebimento());
+		String strDataRecebimentoEsperado = formatoData.format(receita.getDataRecebimentoEsperado());
+		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setDouble(1, receita.getValorReceita());
@@ -282,13 +334,13 @@ public class ReceitaDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(pStatement != null) 
+				if (pStatement != null)
 					pStatement.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-			}			
+			}
 			try {
-				if(conn != null)
+				if (conn != null)
 					conn.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();

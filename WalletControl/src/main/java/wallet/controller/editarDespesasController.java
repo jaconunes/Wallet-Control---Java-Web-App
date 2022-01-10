@@ -15,45 +15,55 @@ import wallet.dao.DespesaDao;
 import wallet.model.Despesa;
 
 /**
+ * Classe controladora faz a captura dos parâmetros da tela de edição de
+ * Despesas, faz a chamada do método para alterar o objeto no banco de dados.
+ * 
  * Servlet implementation class editarDespesasController
  */
 @WebServlet("/editarDespesasController")
 public class editarDespesasController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     *  @see HttpServlet#HttpServlet() 
-     */
-    public editarDespesasController() {
-        super();
-    }
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		this.doPost(request, response);
-		
+	public editarDespesasController() {
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		this.doPost(request, response);
+
+	}
+
+	/**
+	 * Método DOPOST faz a captura dos parâmetros da tela de edição de Despesas, faz
+	 * a chamada do método para alterar o objeto no banco de dados.
+	 * 
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
-		SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("yyyy-MM-dd"); 
+
+		SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
-		
-		int id = Integer.valueOf(request.getParameter("id"));		
+
+		int id = Integer.valueOf(request.getParameter("id"));
 		double valor = Double.parseDouble(request.getParameter("inputValor"));
 		String paramentoDataPagamento = request.getParameter("inputPagamento");
 		String paramentoDataPagamentoEsperado = request.getParameter("inputPagamentoEsperado");
 		Date dataPagamento = null;
 		Date dataPagamentoEsperado = null;
-		String tipoDespesa = request.getParameter("inputTipoDespesa");	
+		String tipoDespesa = request.getParameter("inputTipoDespesa");
 		int codigoConta = Integer.parseInt(request.getParameter("inputConta"));
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa editada com sucesso!</div>";
 		try {
@@ -61,20 +71,18 @@ public class editarDespesasController extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			dataPagamentoEsperado = formatoDataPagamentoEsperado.parse(paramentoDataPagamentoEsperado);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		Despesa despesa = new Despesa ( id, valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta );
+
+		Despesa despesa = new Despesa(id, valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta);
 		new DespesaDao().AlterarDespesa(despesa);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
-		request.setAttribute("mensagem", mensagem);			
+		request.setAttribute("mensagem", mensagem);
 		dispatcher.forward(request, response);
-		
-		}
+
 	}
-
-
+}

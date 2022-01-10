@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import wallet.model.Despesa;
 
 /**
+ * Classe controladora faz a busca pela lista de Despesas e encaminha para
+ * evibição.
+ * 
  * Servlet implementation class listarDespesasController
  */
 @WebServlet("/listarDespesasController")
@@ -35,6 +38,9 @@ public class listarDespesasController extends HttpServlet {
 	}
 
 	/**
+	 * Método DOPOST faz a busca da lista de Despesas e encaminha para a exibição na
+	 * JSP.
+	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
