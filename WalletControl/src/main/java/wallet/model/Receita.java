@@ -3,6 +3,7 @@ package wallet.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import wallet.dao.ContaDao;
 import wallet.dao.ReceitaDao;
 
 public class Receita {
@@ -12,7 +13,7 @@ public class Receita {
 	private Date dataRecebimento;
 	private Date dataRecebimentoEsperado;
 	private String descricao;
-	private String conta;
+	private int codigoConta;
 	private String tipoReceita;
 	
 	public Receita() {
@@ -22,25 +23,25 @@ public class Receita {
 	
 	public Receita(double valorReceita, Date dataRecebimento, 
 			Date dataRecebimentoEsperado, String descricao,
-			String conta, String tipoReceita) {
+			int codigoConta, String tipoReceita) {
 		this.valorReceita = valorReceita;
 		this.dataRecebimento = dataRecebimento;
 		this.dataRecebimentoEsperado = dataRecebimentoEsperado;
 		this.descricao = descricao;
-		this.conta = conta;
+		this.codigoConta = codigoConta;
 		this.tipoReceita = tipoReceita;
 	}
 
 
 	public Receita(int idReceita, double valorReceita, Date dataRecebimento, 
-			Date dataRecebimentoEsperado, String descricao, String conta, 
+			Date dataRecebimentoEsperado, String descricao, int codigoConta, 
 			String tipoReceita) {
 		this.idReceita = idReceita;
 		this.valorReceita = valorReceita;
 		this.dataRecebimento = dataRecebimento;
 		this.dataRecebimentoEsperado = dataRecebimentoEsperado;
 		this.descricao = descricao;
-		this.conta = conta;
+		this.codigoConta = codigoConta;
 		this.tipoReceita = tipoReceita;
 		
 	}
@@ -96,13 +97,13 @@ public class Receita {
 	}
 
 
-	public String getConta() {
-		return conta;
+	public int getCodigoConta() {
+		return codigoConta;
 	}
 
 
-	public void setConta(String conta) {
-		this.conta = conta;
+	public void setCodigoConta(int codigoConta) {
+		this.codigoConta = codigoConta;
 	}
 
 
@@ -139,4 +140,15 @@ public class Receita {
 		return new ReceitaDao().ListarReceitas();
 	}
 	
+	public String buscarContaPorCodigo(int codigoConta) {
+		Conta conta = new Conta().buscarContaPorId(codigoConta);		
+		return conta.getInstituicaoFinanceira();
+	}
+	
+	public void adicionaSaldoConta(int codConta, double valor) {
+		Conta conta = new Conta().buscarContaPorId(codConta);
+		double novoSaldoConta = conta.getSaldo() + valor;
+		conta.setSaldo(novoSaldoConta);
+		new ContaDao().AlterarConta(conta);		
+	}
 }

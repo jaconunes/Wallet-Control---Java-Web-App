@@ -54,7 +54,7 @@ public class editarReceitasController extends HttpServlet {
 		Date dataRecebimento = null;
 		Date dataRecebimentoEsperado = null;
 		String descricao = request.getParameter("inputDescricao");
-		String conta = request.getParameter("inputConta");
+		int codigoConta = Integer.parseInt(request.getParameter("inputConta"));
 		String tipoReceita = request.getParameter("inputTipoReceita");		
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita editada com sucesso!</div>";
 		try {
@@ -69,7 +69,7 @@ public class editarReceitasController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		Receita receita = new Receita(id, valor, dataRecebimento, dataRecebimentoEsperado, descricao, conta, tipoReceita);
+		Receita receita = new Receita(id, valor, dataRecebimento, dataRecebimentoEsperado, descricao, codigoConta, tipoReceita);
 		new ReceitaDao().AlterarReceita(receita);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 		request.setAttribute("mensagem", mensagem);			

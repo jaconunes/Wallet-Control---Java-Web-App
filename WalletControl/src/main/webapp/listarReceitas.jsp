@@ -128,7 +128,7 @@
                                                         <% out.print(receita.getDescricao()); %>
                                                     </td>
                                                     <td>
-                                                        <% out.print(receita.getConta()); %>
+                                                        <% out.print(receita.getCodigoConta() + " - " + receita.buscarContaPorCodigo(receita.getCodigoConta())); %>
                                                     </td>
                                                     <td>
                                                         <% out.print(receita.getTipoReceita()); %>

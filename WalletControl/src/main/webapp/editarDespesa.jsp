@@ -81,14 +81,14 @@
                                         <div class="form-group col-md-6">
                                             <label for="inputConta">Conta</label>
                                             <select id="inputConta" class="form-control" name="inputConta" required>
-                                <option class="text-dark"  selected><% out.print(despesa.getConta()); %></option>
+                                <option class="text-dark" value="<% out.print(despesa.getCodigoConta()); %>" selected><% out.print(despesa.getCodigoConta() + " - " + despesa.buscarContaPorCodigo(despesa.getCodigoConta())); %></option>
                                 <%                                 
                                 if(request.getAttribute("listaContas") != null){
                                     List<?> contas = (List<?>) request.getAttribute("listaContas");
                                     for(int contador = 0; contador <= (contas.size() - 1); contador++){
                                         Conta conta = (Conta) contas.get(contador);                                	
                                 %>                                
-                                <option class="text-dark" ><% out.print(conta.getIdConta()); %> - <% out.print(conta.getInstituicaoFinanceira()); %></option>                                
+                                <option class="text-dark" value="<% out.print(conta.getIdConta()); %>"><% out.print(conta.getIdConta()); %> - <% out.print(conta.getInstituicaoFinanceira()); %></option>                                
                                 <%}}%>                                
                             </select>
                                         </div>

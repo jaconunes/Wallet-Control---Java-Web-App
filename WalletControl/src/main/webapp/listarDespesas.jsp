@@ -131,7 +131,7 @@
                                                         <% out.print(despesa.getTipoDespesa()); %>
                                                     </td>
                                                     <td>
-                                                        <% out.print(despesa.getConta()); %>
+                                                        <% out.print(despesa.getCodigoConta() + " - " + despesa.buscarContaPorCodigo(despesa.getCodigoConta())); %>
                                                     </td>
                                                     <td>
                                                         <input type="submit" class="btn text-white font-italic font-weight-bold" name="editar" value="Editar">

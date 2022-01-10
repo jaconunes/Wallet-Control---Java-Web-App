@@ -54,7 +54,7 @@ public class editarDespesasController extends HttpServlet {
 		Date dataPagamento = null;
 		Date dataPagamentoEsperado = null;
 		String tipoDespesa = request.getParameter("inputTipoDespesa");	
-		String conta = request.getParameter("inputConta");
+		int codigoConta = Integer.parseInt(request.getParameter("inputConta"));
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa editada com sucesso!</div>";
 		try {
 			dataPagamento = formatoDataPagamento.parse(paramentoDataPagamento);
@@ -68,7 +68,7 @@ public class editarDespesasController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		Despesa despesa = new Despesa ( id, valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, conta );
+		Despesa despesa = new Despesa ( id, valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta );
 		new DespesaDao().AlterarDespesa(despesa);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
 		request.setAttribute("mensagem", mensagem);			

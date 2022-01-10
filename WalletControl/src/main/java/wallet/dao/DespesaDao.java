@@ -26,7 +26,7 @@ public class DespesaDao {
 				pStatement.setString(2, strDataPagamento);
 				pStatement.setString(3, strDataPagamentoEsperado);
 				pStatement.setString(4, despesa.getTipoDespesa());
-				pStatement.setString(5, despesa.getConta());						
+				pStatement.setInt(5, despesa.getCodigoConta());						
 				pStatement.execute();
 				
 			} catch (Exception e) {
@@ -69,7 +69,7 @@ public class DespesaDao {
 						despesa.setDataPagamento(rs.getDate("dataPagamento"));
 						despesa.setDataPagamentoEsperado(rs.getDate("dataPagamentoEsperado"));
 						despesa.setTipoDespesa(rs.getString("tipoDespesa"));
-						despesa.setConta(rs.getString("conta"));
+						despesa.setCodigoConta(rs.getInt("codigoConta"));
 						
 						despesas.add(despesa);					
 					}
@@ -115,7 +115,7 @@ public class DespesaDao {
 						despesa.setDataPagamento(rs.getDate("dataPagamento"));
 						despesa.setDataPagamentoEsperado(rs.getDate("dataPagamentoEsperado"));
 						despesa.setTipoDespesa(rs.getString("tipoDespesa"));
-						despesa.setConta(rs.getString("conta"));
+						despesa.setCodigoConta(rs.getInt("codigoConta"));
 						
 						despesas.add(despesa);					
 					}
@@ -161,7 +161,7 @@ public class DespesaDao {
 						despesa.setDataPagamento(rs.getDate("dataPagamento"));
 						despesa.setDataPagamentoEsperado(rs.getDate("dataPagamentoEsperado"));
 						despesa.setTipoDespesa(rs.getString("tipoDespesa"));
-						despesa.setConta(rs.getString("conta"));
+						despesa.setCodigoConta(rs.getInt("codigoConta"));
 						
 						despesas.add(despesa);				
 					}
@@ -204,7 +204,7 @@ public class DespesaDao {
 					despesa.setDataPagamento(rs.getDate("dataPagamento"));
 					despesa.setDataPagamentoEsperado(rs.getDate("dataPagamentoEsperado"));
 					despesa.setTipoDespesa(rs.getString("tipoDespesa"));
-					despesa.setConta(rs.getString("conta"));
+					despesa.setCodigoConta(rs.getInt("codigoConta"));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -232,7 +232,7 @@ public class DespesaDao {
 					+ "', dataPagamento = '" + formatoData.format(despesa.getDataPagamento())
 					+ "', dataPagamentoEsperado = '" + formatoData.format(despesa.getDataPagamentoEsperado())
 					+ "', tipoDespesa = '" + despesa.getTipoDespesa()
-					+ "',  conta = '" + despesa.getConta()
+					+ "',  codigoConta = '" + despesa.getCodigoConta()
 					+ "'  WHERE idDespesa = '" + despesa.getIdDespesa()
 					+ "';";
 			PreparedStatement pStatement = null;
@@ -243,7 +243,6 @@ public class DespesaDao {
 				pStatement.execute();
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("Deu erro aqui!");
 			} finally {
 				try {
 					if(pStatement != null) 

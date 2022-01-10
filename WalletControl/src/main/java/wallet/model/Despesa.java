@@ -3,6 +3,7 @@ package wallet.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import wallet.dao.ContaDao;
 import wallet.dao.DespesaDao;
 
 public class Despesa {
@@ -12,7 +13,7 @@ public class Despesa {
 	private Date dataPagamento;
 	private Date dataPagamentoEsperado;
 	private String tipoDespesa;
-	private String conta;
+	private int codigoConta;
 	
 	
 	public Despesa() {
@@ -21,23 +22,23 @@ public class Despesa {
 
 
 	public Despesa(double valor, Date dataPagamento, Date dataPagamentoEsperado, String tipoDespesa,
-			String conta) {
+			int codigoConta) {
 		this.valor = valor;
 		this.dataPagamento = dataPagamento;
 		this.dataPagamentoEsperado = dataPagamentoEsperado;
 		this.tipoDespesa = tipoDespesa;
-		this.conta = conta;
+		this.codigoConta = codigoConta;
 	}
 
 
 	public Despesa(int idDespesa, double valor, Date dataPagamento, Date dataPagamentoEsperado,
-			String tipoDespesa, String conta) {
+			String tipoDespesa, int codigoConta) {
 		this.idDespesa = idDespesa;
 		this.valor = valor;
 		this.dataPagamento = dataPagamento;
 		this.dataPagamentoEsperado = dataPagamentoEsperado;
 		this.tipoDespesa = tipoDespesa;
-		this.conta = conta;
+		this.codigoConta = codigoConta;
 	}
 
 
@@ -91,13 +92,13 @@ public class Despesa {
 	}
 
 
-	public String getConta() {
-		return conta;
+	public int getCodigoConta() {
+		return codigoConta;
 	}
 
 
-	public void setConta(String conta) {
-		this.conta = conta;
+	public void setCodigoConta(int codigoConta) {
+		this.codigoConta = codigoConta;
 	}
 	
 	public void salvar() {
@@ -122,5 +123,17 @@ public class Despesa {
 	
 	public Despesa buscarDespesaPorId(int idDespesa) {
 		return new DespesaDao().BuscarDespesaPorId(idDespesa);
+	}
+	
+	public String buscarContaPorCodigo(int codigoConta) {
+		Conta conta = new Conta().buscarContaPorId(codigoConta);		
+		return conta.getInstituicaoFinanceira();
+	}
+	
+	public void debitarSaldoConta(int codConta, double valor) {
+		Conta conta = new Conta().buscarContaPorId(codConta);
+		double novoSaldoConta = conta.getSaldo() - valor;
+		conta.setSaldo(novoSaldoConta);
+		new ContaDao().AlterarConta(conta);		
 	}
 }

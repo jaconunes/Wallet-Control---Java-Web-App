@@ -49,7 +49,7 @@ public class cadastrarReceitaController extends HttpServlet {
 		Date dataRecebimento = null;
 		Date dataRecebimentoEsperado = null;
 		String descricao = request.getParameter("inputDescricao");
-		String conta = request.getParameter("inputConta");
+		String codigoConta = request.getParameter("inputConta");
 		String tipoReceita = request.getParameter("inputTipoReceita");
 		String mensagem;
 		try {
@@ -68,12 +68,14 @@ public class cadastrarReceitaController extends HttpServlet {
 		
 		
 		if(request.getParameter("inputValor") != null && dataRecebimento != null 
-				&& dataRecebimentoEsperado != null && descricao != null && conta != null && tipoReceita != null) {
+				&& dataRecebimentoEsperado != null && descricao != null && codigoConta != null && tipoReceita != null) {
 			
-			valor = Double.parseDouble(request.getParameter("inputValor"));	
+			valor = Double.parseDouble(request.getParameter("inputValor"));
+			int codConta = Integer.parseInt(codigoConta);
 			
-			Receita receita = new Receita(valor, dataRecebimento, dataRecebimentoEsperado, descricao, conta, tipoReceita);
+			Receita receita = new Receita(valor, dataRecebimento, dataRecebimentoEsperado, descricao, codConta, tipoReceita);
 			receita.salvar();
+			receita.adicionaSaldoConta(codConta, valor);
 			
 			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita cadastrada com sucesso!</div>";			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("receitas.jsp");

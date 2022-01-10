@@ -62,18 +62,15 @@ public class cadastrarDespesaController extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 		if(request.getParameter("inputValor") != null && dataPagamento != null 
 				&& dataPagamentoEsperado != null && conta != null && tipoDespesa != null) {
 			
 			valor = Double.parseDouble(request.getParameter("inputValor"));	
+			int codigoConta = Integer.parseInt(conta);
 			
-			Despesa despesa = new Despesa( valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, conta );
+			Despesa despesa = new Despesa( valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta );
 			despesa.salvar();
-			
+			despesa.debitarSaldoConta(codigoConta, valor);
 			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa cadastrada com sucesso!</div>";
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("despesas.jsp");

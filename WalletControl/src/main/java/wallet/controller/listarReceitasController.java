@@ -60,7 +60,7 @@ public class listarReceitasController extends HttpServlet {
 					RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 					dispatcher.forward(request, response);
 				} else if(submitPorPeriodo != null) {
-					receitas = new Receita().buscarReceitaPorPeriodo(dataInicial, dataFinal);					
+					receitas = new Receita().buscarReceitaPorPeriodo(dataInicial, dataFinal);
 					request.setAttribute("receitas", receitas);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 					dispatcher.forward(request, response);

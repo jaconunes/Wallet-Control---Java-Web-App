@@ -26,12 +26,14 @@ public class ReceitaDao {
 			pStatement.setString(2, strDataRecebimento);
 			pStatement.setString(3, strDataRecebimentoEsperado);
 			pStatement.setString(4, receita.getDescricao());
-			pStatement.setString(5, receita.getConta());
+			pStatement.setInt(5, receita.getCodigoConta());
 			pStatement.setString(6, receita.getTipoReceita());			
 			pStatement.execute();
 			
 		} catch (Exception e) {
+			System.out.println("Deu erro aqui!");
 			e.printStackTrace();
+			
 		} finally {
 			try {
 				if(pStatement != null) 
@@ -68,7 +70,7 @@ public class ReceitaDao {
 				receita.setDataRecebimento(rs.getDate("dataRecebimento"));
 				receita.setDataRecebimentoEsperado(rs.getDate("dataRecebimentoEsperado"));
 				receita.setDescricao(rs.getString("descricao"));
-				receita.setConta(rs.getString("conta"));
+				receita.setCodigoConta(rs.getInt("codigoConta"));
 				receita.setTipoReceita(rs.getString("tipoReceita"));
 			}
 		} catch (Exception e) {
@@ -111,7 +113,7 @@ public class ReceitaDao {
 					receita.setDataRecebimento(rs.getDate("dataRecebimento"));
 					receita.setDataRecebimentoEsperado(rs.getDate("dataRecebimentoEsperado"));
 					receita.setDescricao(rs.getString("descricao"));
-					receita.setConta(rs.getString("conta"));
+					receita.setCodigoConta(rs.getInt("codigoConta"));
 					receita.setTipoReceita(rs.getString("tipoReceita"));
 					receitas.add(receita);					
 				}
@@ -157,7 +159,7 @@ public class ReceitaDao {
 					receita.setDataRecebimento(rs.getDate("dataRecebimento"));
 					receita.setDataRecebimentoEsperado(rs.getDate("dataRecebimentoEsperado"));
 					receita.setDescricao(rs.getString("descricao"));
-					receita.setConta(rs.getString("conta"));
+					receita.setCodigoConta(rs.getInt("codigoConta"));
 					receita.setTipoReceita(rs.getString("tipoReceita"));
 					receitas.add(receita);					
 				}
@@ -203,7 +205,7 @@ public class ReceitaDao {
 					receita.setDataRecebimento(rs.getDate("dataRecebimento"));
 					receita.setDataRecebimentoEsperado(rs.getDate("dataRecebimentoEsperado"));
 					receita.setDescricao(rs.getString("descricao"));
-					receita.setConta(rs.getString("conta"));
+					receita.setCodigoConta(rs.getInt("codigoConta"));
 					receita.setTipoReceita(rs.getString("tipoReceita"));
 					receitas.add(receita);					
 				}
@@ -258,7 +260,7 @@ public class ReceitaDao {
 	
 	public void AlterarReceita(Receita receita) {
 		String sql = "UPDATE RECEITA SET valorReceita = ?, dataRecebimento = ?, "
-				+ "dataRecebimentoEsperado = ?, descricao = ?, conta = ?, "
+				+ "dataRecebimentoEsperado = ?, descricao = ?, codigoConta = ?, "
 				+ "tipoReceita = ? WHERE idReceita = ?";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
@@ -272,7 +274,7 @@ public class ReceitaDao {
 			pStatement.setString(2, strDataRecebimento);
 			pStatement.setString(3, strDataRecebimentoEsperado);
 			pStatement.setString(4, receita.getDescricao());
-			pStatement.setString(5, receita.getConta());
+			pStatement.setInt(5, receita.getCodigoConta());
 			pStatement.setString(6, receita.getTipoReceita());
 			pStatement.setInt(7, receita.getIdReceita());
 			pStatement.execute();
