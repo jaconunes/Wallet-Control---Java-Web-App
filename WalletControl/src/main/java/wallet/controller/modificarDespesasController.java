@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wallet.model.Conta;
 import wallet.model.Despesa;
+import wallet.model.Receita;
 
 /**
  * Classe controladora captura o parâmetro dos botões clicados e realiza as
@@ -56,11 +57,14 @@ public class modificarDespesasController extends HttpServlet {
 		String excluir = request.getParameter("excluir");
 		String editar = request.getParameter("editar");
 		String id = request.getParameter("idItemExcluido");
+		int codigoConta = Integer.parseInt(request.getParameter("codigoConta"));
+		double valorDespesa = Double.parseDouble(request.getParameter("valorDespesa"));
 		ArrayList<Conta> contas = null;
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita excluída com sucesso!</div>";
 
 		if (excluir != null && id != null) {
 			new Despesa().excluir(Integer.valueOf(id));
+			new Receita().adicionaSaldoConta(codigoConta, valorDespesa);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
 			request.setAttribute("mensagem", mensagem);
 			dispatcher.forward(request, response);

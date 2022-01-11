@@ -97,6 +97,7 @@
                                         </div>
                                         <button type="submit" class="btn btn-success" name="editar">Salvar Alteração</button>
                                         <input type="hidden" name="id" value="<% out.print(receita.getIdReceita()); %>">
+                                        <input type="hidden" name="idContaReceita" value="<% out.print(receita.getCodigoConta()); %>">
                                         <% 
                             String mensagem = (String) request.getAttribute("mensagem");
                             

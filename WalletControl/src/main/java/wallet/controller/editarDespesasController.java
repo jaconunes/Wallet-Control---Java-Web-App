@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wallet.dao.DespesaDao;
 import wallet.model.Despesa;
+import wallet.model.Receita;
 
 /**
  * Classe controladora faz a captura dos parâmetros da tela de edição de
@@ -57,7 +58,8 @@ public class editarDespesasController extends HttpServlet {
 		SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
 
-		int id = Integer.valueOf(request.getParameter("id"));
+		int idContaDespesaEditada = Integer.parseInt(request.getParameter("idContaDespesaEditada"));
+		int id = Integer.parseInt(request.getParameter("id"));
 		double valor = Double.parseDouble(request.getParameter("inputValor"));
 		String paramentoDataPagamento = request.getParameter("inputPagamento");
 		String paramentoDataPagamentoEsperado = request.getParameter("inputPagamentoEsperado");
@@ -80,6 +82,10 @@ public class editarDespesasController extends HttpServlet {
 
 		Despesa despesa = new Despesa(id, valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta);
 		new DespesaDao().AlterarDespesa(despesa);
+		if (idContaDespesaEditada != codigoConta) {
+			despesa.debitarSaldoConta(codigoConta, valor);
+			new Receita().adicionaSaldoConta(idContaDespesaEditada, valor);
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
 		request.setAttribute("mensagem", mensagem);
 		dispatcher.forward(request, response);

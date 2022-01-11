@@ -112,6 +112,7 @@
                                                         DecimalFormat df = new DecimalFormat("###,###.00");
                                                         out.print("R$ "+ df.format(despesa.getValor())); 
                                                         %>
+                                                        <input type="hidden" name="valorDespesa" value="<% out.print(despesa.getValor()); %>">
                                                     </td>
                                                     <td>
                                                         <% 
@@ -138,6 +139,7 @@
                                                     </td>
                                                     <td>
                                                         <input type="submit" class="btn text-white font-italic font-weight-bold" name="excluir" value="Excluir">
+                                                        <input type="hidden" name="codigoConta" value="<% out.print(despesa.getCodigoConta()); %>">
                                                     </td>
                                                 </tr>
                                             </form>

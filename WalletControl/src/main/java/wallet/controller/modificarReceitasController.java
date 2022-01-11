@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wallet.model.Conta;
+import wallet.model.Despesa;
 import wallet.model.Receita;
 
 /**
@@ -56,11 +57,14 @@ public class modificarReceitasController extends HttpServlet {
 		String excluir = request.getParameter("excluir");
 		String editar = request.getParameter("editar");
 		String id = request.getParameter("idItemExcluido");
+		int codigoConta = Integer.parseInt(request.getParameter("codigoConta"));
+		double valorReceita = Double.parseDouble(request.getParameter("valorReceita"));
 		ArrayList<Conta> contas = null;
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita excluída com sucesso!</div>";
 
 		if (excluir != null && id != null) {
 			new Receita().excluir(Integer.valueOf(id));
+			new Despesa().debitarSaldoConta(codigoConta, valorReceita);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 			request.setAttribute("mensagem", mensagem);
 			dispatcher.forward(request, response);

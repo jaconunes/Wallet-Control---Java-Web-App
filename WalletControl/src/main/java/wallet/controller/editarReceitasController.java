@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wallet.dao.ReceitaDao;
+import wallet.model.Despesa;
 import wallet.model.Receita;
 
 /**
@@ -57,7 +58,8 @@ public class editarReceitasController extends HttpServlet {
 		SimpleDateFormat formatoDataRecebimento = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatoDataRecebimentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
 
-		int id = Integer.valueOf(request.getParameter("id"));
+		int idContaReceita = Integer.parseInt(request.getParameter("idContaReceita"));
+		int id = Integer.parseInt(request.getParameter("id"));
 		double valor = Double.parseDouble(request.getParameter("inputValor"));
 		String paramentoDataRecebimento = request.getParameter("inputRecebimento");
 		String paramentoDataRecebimentoEsperado = request.getParameter("inputRecebimentoEsperado");
@@ -82,6 +84,12 @@ public class editarReceitasController extends HttpServlet {
 		Receita receita = new Receita(id, valor, dataRecebimento, dataRecebimentoEsperado, descricao, codigoConta,
 				tipoReceita);
 		new ReceitaDao().AlterarReceita(receita);
+		System.out.println(idContaReceita);
+		System.out.println(id);
+		if (idContaReceita != codigoConta) {
+			new Despesa().debitarSaldoConta(idContaReceita, valor);
+			receita.adicionaSaldoConta(codigoConta, valor);
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 		request.setAttribute("mensagem", mensagem);
 		dispatcher.forward(request, response);
