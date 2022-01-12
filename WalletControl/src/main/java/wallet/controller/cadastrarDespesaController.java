@@ -51,49 +51,42 @@ public class cadastrarDespesaController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
-		double valor;
-		String parametroDataPagamento = request.getParameter("inputPagamento");
-		String parametroDataPagamentoEsperado = request.getParameter("inputPagamentoEsperado");
 		Date dataPagamento = null;
 		Date dataPagamentoEsperado = null;
-		String conta = request.getParameter("inputConta");
-		String tipoDespesa = request.getParameter("inputTipoDespesa");
 		String mensagem;
+		Boolean retorno = null;
 		try {
-			dataPagamento = formatoDataPagamento.parse(parametroDataPagamento);
+			dataPagamento = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("inputPagamento"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			dataPagamentoEsperado = formatoDataPagamentoEsperado.parse(parametroDataPagamentoEsperado);
+			dataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("inputPagamentoEsperado"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		if (request.getParameter("inputValor") != null && dataPagamento != null && dataPagamentoEsperado != null
-				&& conta != null && tipoDespesa != null) {
 
-			valor = Double.parseDouble(request.getParameter("inputValor"));
-			int codigoConta = Integer.parseInt(conta);
-
-			Despesa despesa = new Despesa(valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta);
+		Despesa despesa = new Despesa(Double.parseDouble(request.getParameter("inputValor")), dataPagamento,
+				dataPagamentoEsperado, request.getParameter("inputTipoDespesa"),
+				Integer.parseInt(request.getParameter("inputConta")));
+		retorno = despesa.debitarSaldoConta(Integer.parseInt(request.getParameter("inputConta")),
+				Double.parseDouble(request.getParameter("inputValor")));
+		if (retorno) {
 			despesa.salvar();
-			despesa.debitarSaldoConta(codigoConta, valor);
 			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa cadastrada com sucesso!</div>";
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("despesas.jsp");
 			request.setAttribute("mensagem", mensagem);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("despesas.jsp");
 			dispatcher.forward(request, response);
-
 		} else {
-
-			mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">\r\n"
-					+ "Preencha todas as informações!\r\n" + "</div>";
-
+			mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">"
+					+ "A conta selecionada não tem saldo suficiente! Selecione outra conta e tente novamente."
+					+ "</div>";
+			request.setAttribute("mensagem", mensagem);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("despesas.jsp");
+			dispatcher.forward(request, response);
 		}
-
 	}
 
 }

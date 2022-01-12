@@ -51,33 +51,25 @@ public class modificarContasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String excluir = request.getParameter("excluir");
-		String editar = request.getParameter("editar");
-		String transferir = request.getParameter("transferir");
-		String id = request.getParameter("idItemExcluido");
-		ArrayList<Conta> contas = null;
-		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Conta excluída com sucesso!</div>";
+		String mensagem = null;
 
-		if (excluir != null && id != null) {
-			new Conta().excluir(Integer.valueOf(id));
+		if (request.getParameter("excluir") != null && request.getParameter("idItemExcluido") != null) {
+			mensagem = new Conta().excluir(Integer.valueOf(request.getParameter("idItemExcluido")));
 			request.setAttribute("mensagem", mensagem);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
 			dispatcher.forward(request, response);
-			System.out.println("Botão Excluir");
-		} else if (editar != null && id != null) {
-			Conta conta = new Conta().buscarContaPorId(Integer.valueOf(id));
+		} else if (request.getParameter("editar") != null && request.getParameter("idItemExcluido") != null) {
+			Conta conta = new Conta().buscarContaPorId(Integer.valueOf(request.getParameter("idItemExcluido")));
 			request.setAttribute("conta", conta);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("editarConta.jsp");
 			dispatcher.forward(request, response);
-			System.out.println("Botão editar");
-		} else if (transferir != null && id != null) {
-			Conta conta = new Conta().buscarContaPorId(Integer.valueOf(id));
-			contas = new Conta().listarContas();
+		} else if (request.getParameter("transferir") != null && request.getParameter("idItemExcluido") != null) {
+			Conta conta = new Conta().buscarContaPorId(Integer.valueOf(request.getParameter("idItemExcluido")));
+			ArrayList<Conta> contas = new Conta().listarContas();
 			request.setAttribute("listaContas", contas);
 			request.setAttribute("conta", conta);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("transferirSaldo.jsp");
 			dispatcher.forward(request, response);
-			System.out.println("Botão transferir");
 		}
 	}
 }

@@ -257,14 +257,25 @@ public class Despesa {
 
 	/**
 	 * Método para debitar saldo de uma Conta buscada no banco de dados pelo id.
+	 * Retorna positivo ou negativo
 	 * 
 	 * @param codConta
 	 * @param valor
+	 * @return retorno
 	 */
-	public void debitarSaldoConta(int codConta, double valor) {
+	public Boolean debitarSaldoConta(int codConta, double valor) {
+		Boolean retorno = null;
 		Conta conta = new Conta().buscarContaPorId(codConta);
-		double novoSaldoConta = conta.getSaldo() - valor;
-		conta.setSaldo(novoSaldoConta);
-		new ContaDao().AlterarConta(conta);
+		if (conta.getSaldo() > valor) {
+			double novoSaldoConta = conta.getSaldo() - valor;
+			conta.setSaldo(novoSaldoConta);
+			new ContaDao().AlterarConta(conta);
+			retorno = true;
+		} else {
+			retorno = false;
+		}
+
+		return retorno;
+
 	}
 }

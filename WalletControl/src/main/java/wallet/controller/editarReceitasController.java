@@ -3,6 +3,7 @@ package wallet.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import jakarta.servlet.RequestDispatcher;
@@ -55,43 +56,58 @@ public class editarReceitasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		SimpleDateFormat formatoDataRecebimento = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatoDataRecebimentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
-
-		int idContaReceita = Integer.parseInt(request.getParameter("idContaReceita"));
-		int id = Integer.parseInt(request.getParameter("id"));
-		double valor = Double.parseDouble(request.getParameter("inputValor"));
-		String paramentoDataRecebimento = request.getParameter("inputRecebimento");
-		String paramentoDataRecebimentoEsperado = request.getParameter("inputRecebimentoEsperado");
 		Date dataRecebimento = null;
 		Date dataRecebimentoEsperado = null;
-		String descricao = request.getParameter("inputDescricao");
-		int codigoConta = Integer.parseInt(request.getParameter("inputConta"));
-		String tipoReceita = request.getParameter("inputTipoReceita");
-		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita editada com sucesso!</div>";
+		String mensagem = null;
+		ArrayList<Receita> receitas = new Receita().listarReceitas();
 		try {
-			dataRecebimento = formatoDataRecebimento.parse(paramentoDataRecebimento);
+			dataRecebimento = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("inputRecebimento"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			dataRecebimentoEsperado = formatoDataRecebimentoEsperado.parse(paramentoDataRecebimentoEsperado);
+			dataRecebimentoEsperado = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("inputRecebimentoEsperado"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		Receita receita = new Receita(id, valor, dataRecebimento, dataRecebimentoEsperado, descricao, codigoConta,
-				tipoReceita);
-		new ReceitaDao().AlterarReceita(receita);
-		System.out.println(idContaReceita);
-		System.out.println(id);
-		if (idContaReceita != codigoConta) {
-			new Despesa().debitarSaldoConta(idContaReceita, valor);
-			receita.adicionaSaldoConta(codigoConta, valor);
+		Receita receita = new Receita(Integer.parseInt(request.getParameter("id")),
+				Double.parseDouble(request.getParameter("inputValor")), dataRecebimento, dataRecebimentoEsperado,
+				request.getParameter("inputDescricao"), Integer.parseInt(request.getParameter("inputConta")),
+				request.getParameter("inputTipoReceita"));
+
+		if (Integer.parseInt(request.getParameter("idContaReceita")) != Integer
+				.parseInt(request.getParameter("inputConta"))) {
+			Boolean retorno = new Despesa().debitarSaldoConta(Integer.parseInt(request.getParameter("idContaReceita")),
+					Double.parseDouble(request.getParameter("inputValor")));
+			if (retorno) {
+				receita.adicionaSaldoConta(Integer.parseInt(request.getParameter("inputConta")),
+						Double.parseDouble(request.getParameter("inputValor")));
+				new ReceitaDao().AlterarReceita(receita);
+				mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita editada com sucesso!</div>";
+				request.setAttribute("mensagem", mensagem);
+				request.setAttribute("receitas", receitas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">"
+						+ "A sua alteração não pode ser executada! A conta atual não tem "
+						+ "saldo o suficiente para transferência de valores.</div>";
+				request.setAttribute("mensagem", mensagem);
+				request.setAttribute("receitas", receitas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
+				dispatcher.forward(request, response);
+			}
+
+		} else {
+			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita editada com sucesso!</div>";
+			new ReceitaDao().AlterarReceita(receita);
+			request.setAttribute("mensagem", mensagem);
+			request.setAttribute("receitas", receitas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
+			dispatcher.forward(request, response);
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
-		request.setAttribute("mensagem", mensagem);
-		dispatcher.forward(request, response);
 	}
 }

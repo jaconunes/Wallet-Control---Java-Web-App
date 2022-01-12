@@ -151,12 +151,16 @@ public class Conta {
 	}
 
 	/**
-	 * Método para excluir um objeto Conta no banco de dados pelo id.
+	 * Método para excluir um objeto Conta no banco de dados pelo id. Retorna
+	 * mensagem.
 	 * 
 	 * @param idConta
+	 * @return mensagem
 	 */
-	public void excluir(int idConta) {
-		new ContaDao().ExcluirConta(idConta);
+	public String excluir(int idConta) {
+		String mensagem = new ContaDao().ExcluirConta(idConta);
+
+		return mensagem;
 	}
 
 	/**
@@ -179,11 +183,9 @@ public class Conta {
 	public void transferirSaldo(int idIdContaAtual, int idIdContaDestino, double saldoATransferir) {
 		Conta contaAtual = new ContaDao().BuscarContaPorId(idIdContaAtual);
 		Conta contaDestino = new ContaDao().BuscarContaPorId(idIdContaDestino);
-		double NovoSaldoContaAtual = contaAtual.getSaldo() - saldoATransferir;
-		double NovoSaldoContaDestino = contaDestino.getSaldo() + saldoATransferir;
 
-		contaAtual.setSaldo(NovoSaldoContaAtual);
-		contaDestino.setSaldo(NovoSaldoContaDestino);
+		contaAtual.setSaldo(contaAtual.getSaldo() - saldoATransferir);
+		contaDestino.setSaldo(contaDestino.getSaldo() + saldoATransferir);
 
 		new ContaDao().AlterarConta(contaAtual);
 		new ContaDao().AlterarConta(contaDestino);

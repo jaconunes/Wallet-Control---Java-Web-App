@@ -48,12 +48,10 @@ public class cadastrarContaController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		double valor = Double.parseDouble(request.getParameter("inputValor"));
-		String tipoConta = request.getParameter("selectTipoConta");
-		String instituicao = request.getParameter("inputNomeInstituicao");
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Conta cadastrada com sucesso!</div>";
 
-		Conta conta = new Conta(valor, tipoConta, instituicao);
+		Conta conta = new Conta(Double.parseDouble(request.getParameter("inputValor")),
+				request.getParameter("selectTipoConta"), request.getParameter("inputNomeInstituicao"));
 		conta.salvar();
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("contas.jsp");

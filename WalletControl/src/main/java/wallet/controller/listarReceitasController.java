@@ -51,26 +51,21 @@ public class listarReceitasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String submitTodas = request.getParameter("listarTodas");
-		String submitPorTipo = request.getParameter("filtroPorTipo");
-		String tipoSelecionado = request.getParameter("inputTipoReceita");
-		String submitPorPeriodo = request.getParameter("filtroPorPeriodo");
-		String dataInicial = request.getParameter("dataInicio");
-		String dataFinal = request.getParameter("dataFim");
 		ArrayList<Receita> receitas = null;
 
-		if (submitTodas != null) {
+		if (request.getParameter("listarTodas") != null) {
 			receitas = new Receita().listarReceitas();
 			request.setAttribute("receitas", receitas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 			dispatcher.forward(request, response);
-		} else if (submitPorTipo != null) {
-			receitas = new Receita().buscarReceitaPorTipo(tipoSelecionado);
+		} else if (request.getParameter("filtroPorTipo") != null) {
+			receitas = new Receita().buscarReceitaPorTipo(request.getParameter("inputTipoReceita"));
 			request.setAttribute("receitas", receitas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 			dispatcher.forward(request, response);
-		} else if (submitPorPeriodo != null) {
-			receitas = new Receita().buscarReceitaPorPeriodo(dataInicial, dataFinal);
+		} else if (request.getParameter("filtroPorPeriodo") != null) {
+			receitas = new Receita().buscarReceitaPorPeriodo(request.getParameter("dataInicio"),
+					request.getParameter("dataFim"));
 			request.setAttribute("receitas", receitas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 			dispatcher.forward(request, response);

@@ -53,27 +53,28 @@ public class buscarContasSelectController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String botaoAdicionarReceita = request.getParameter("adicionarReceita");
-		String botaoAdicionarDespesa = request.getParameter("adicionarDespesa");
-		String botaoListarReceitas = request.getParameter("listarReceitas");
-		String botaoListarDespesas = request.getParameter("listarDespesas");
-		ArrayList<Conta> contas = null;
-
-		if (botaoAdicionarReceita != null) {
-			contas = new Conta().listarContas();
+		ArrayList<Conta> contas = new Conta().listarContas();
+		
+		if (request.getParameter("adicionarReceita") != null) {
 			request.setAttribute("listaContas", contas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarReceita.jsp");
 			dispatcher.forward(request, response);
-		} else if (botaoAdicionarDespesa != null) {
-			contas = new Conta().listarContas();
+		} else if (request.getParameter("adicionarDespesa") != null) {
 			request.setAttribute("listaContas", contas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarDespesa.jsp");
 			dispatcher.forward(request, response);
-		} else if (botaoListarReceitas != null) {
+		} else if (request.getParameter("adicionarConta") != null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("cadastrarConta.jsp");
+			dispatcher.forward(request, response);
+		} else if (request.getParameter("listarReceitas") != null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 			dispatcher.forward(request, response);
-		} else if (botaoListarDespesas != null) {
+		} else if (request.getParameter("listarDespesas") != null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
+			dispatcher.forward(request, response);
+		} else if (request.getParameter("listarContas") != null) {
+			request.setAttribute("contas", contas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

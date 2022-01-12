@@ -54,23 +54,21 @@ public class modificarDespesasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String excluir = request.getParameter("excluir");
-		String editar = request.getParameter("editar");
-		String id = request.getParameter("idItemExcluido");
-		int codigoConta = Integer.parseInt(request.getParameter("codigoConta"));
-		double valorDespesa = Double.parseDouble(request.getParameter("valorDespesa"));
-		ArrayList<Conta> contas = null;
+		ArrayList<Conta> contas = new Conta().listarContas();
+		ArrayList<Despesa> despesas = new Despesa().listarDespesas();
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita excluída com sucesso!</div>";
 
-		if (excluir != null && id != null) {
-			new Despesa().excluir(Integer.valueOf(id));
-			new Receita().adicionaSaldoConta(codigoConta, valorDespesa);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
+		if (request.getParameter("excluir") != null && request.getParameter("idItemExcluido") != null) {
+
+			new Despesa().excluir(Integer.valueOf(request.getParameter("idItemExcluido")));
+			new Receita().adicionaSaldoConta(Integer.parseInt(request.getParameter("codigoConta")),
+					Double.parseDouble(request.getParameter("valorDespesa")));
 			request.setAttribute("mensagem", mensagem);
+			request.setAttribute("despesas", despesas);			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");			
 			dispatcher.forward(request, response);
-		} else if (editar != null && id != null) {
-			Despesa despesa = new Despesa().buscarDespesaPorId(Integer.valueOf(id));
-			contas = new Conta().listarContas();
+		} else if (request.getParameter("editar") != null && request.getParameter("idItemExcluido") != null) {
+			Despesa despesa = new Despesa().buscarDespesaPorId(Integer.valueOf(request.getParameter("idItemExcluido")));
 			request.setAttribute("listaContas", contas);
 			request.setAttribute("despesa", despesa);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("editarDespesa.jsp");

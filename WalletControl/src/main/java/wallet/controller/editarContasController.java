@@ -51,15 +51,13 @@ public class editarContasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		int id = Integer.valueOf(request.getParameter("id"));
-		double inputValor = Double.parseDouble(request.getParameter("inputValor"));
-		String selectTipoConta = request.getParameter("selectTipoConta");
-		String inputNomeInstituicao = request.getParameter("inputNomeInstituicao");
-		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa editada com sucesso!</div>";
+		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Conta editada com sucesso!</div>";
 
-		Conta conta = new Conta(id, inputValor, selectTipoConta, inputNomeInstituicao);
+		Conta conta = new Conta(Integer.valueOf(request.getParameter("id")),
+				Double.parseDouble(request.getParameter("inputValor")), request.getParameter("selectTipoConta"),
+				request.getParameter("inputNomeInstituicao"));
 		new ContaDao().AlterarConta(conta);
-
+		request.setAttribute("contas", new Conta().listarContas());
 		request.setAttribute("mensagem", mensagem);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
 		dispatcher.forward(request, response);

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"wallet.controller"},{"l":"wallet.dao"},{"l":"wallet.model"}]

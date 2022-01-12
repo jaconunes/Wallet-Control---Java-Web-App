@@ -185,20 +185,24 @@ public class ContaDao {
 
 	/**
 	 * Método faz conexão com o banco de dados, consulta por id e realiza a exclusão
-	 * de um objeto Conta.
+	 * de um objeto Conta. Retorna mensagem de sucessp ou erro.
 	 * 
 	 * @param idConta
+	 * @return mensagem
 	 */
-	public void ExcluirConta(int idConta) {
+	public String ExcluirConta(int idConta) {
 		String sql = "DELETE FROM CONTA WHERE idConta = ?";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
+		String mensagem = null;
 		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setInt(1, idConta);
 			pStatement.execute();
+			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Conta excluída com sucesso!</div>";
 		} catch (Exception e) {
+			mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">Conta não pode ser excluída! Há vínculos com receitas ou despesas.</div>";
 			e.printStackTrace();
 		} finally {
 			try {
@@ -215,5 +219,6 @@ public class ContaDao {
 			}
 		}
 
+		return mensagem;
 	}
 }

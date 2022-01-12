@@ -1,6 +1,7 @@
 package wallet.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -11,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import wallet.model.Conta;
 
 /**
- * Classe controlado chama o método resposável por transferir saldo de uma Conta
+ * Classe controladora chama o método resposável por transferir saldo de uma Conta
  * para outra.
  * 
  * Servlet implementation class transferirSaldoController
@@ -50,14 +51,15 @@ public class transferirSaldoController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		int idIdContaAtual = Integer.valueOf(request.getParameter("IdContaAtual"));
-		int idIdContaDestino = Integer.valueOf(request.getParameter("selectContaDestino"));
-		double saldoATransferir = Double.parseDouble(request.getParameter("inputSaldo"));
 		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Saldo transferido com sucesso!</div>";
+		ArrayList<Conta> contas = new Conta().listarContas();
 
-		new Conta().transferirSaldo(idIdContaAtual, idIdContaDestino, saldoATransferir);
+		new Conta().transferirSaldo(Integer.valueOf(request.getParameter("IdContaAtual")),
+				Integer.valueOf(request.getParameter("selectContaDestino")),
+				Double.parseDouble(request.getParameter("inputSaldo")));
 
 		request.setAttribute("mensagem", mensagem);
+		request.setAttribute("contas", contas);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listarContas.jsp");
 		dispatcher.forward(request, response);
 

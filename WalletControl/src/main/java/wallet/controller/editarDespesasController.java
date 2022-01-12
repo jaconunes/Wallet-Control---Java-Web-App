@@ -3,6 +3,7 @@ package wallet.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import jakarta.servlet.RequestDispatcher;
@@ -55,40 +56,58 @@ public class editarDespesasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
-
-		int idContaDespesaEditada = Integer.parseInt(request.getParameter("idContaDespesaEditada"));
-		int id = Integer.parseInt(request.getParameter("id"));
-		double valor = Double.parseDouble(request.getParameter("inputValor"));
-		String paramentoDataPagamento = request.getParameter("inputPagamento");
-		String paramentoDataPagamentoEsperado = request.getParameter("inputPagamentoEsperado");
 		Date dataPagamento = null;
 		Date dataPagamentoEsperado = null;
-		String tipoDespesa = request.getParameter("inputTipoDespesa");
-		int codigoConta = Integer.parseInt(request.getParameter("inputConta"));
-		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa editada com sucesso!</div>";
+		String mensagem = null;
+		ArrayList<Despesa> despesas = new Despesa().listarDespesas();
 		try {
-			dataPagamento = formatoDataPagamento.parse(paramentoDataPagamento);
+			dataPagamento = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("inputPagamento"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			dataPagamentoEsperado = formatoDataPagamentoEsperado.parse(paramentoDataPagamentoEsperado);
+			dataPagamentoEsperado = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("inputPagamentoEsperado"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		Despesa despesa = new Despesa(id, valor, dataPagamento, dataPagamentoEsperado, tipoDespesa, codigoConta);
-		new DespesaDao().AlterarDespesa(despesa);
-		if (idContaDespesaEditada != codigoConta) {
-			despesa.debitarSaldoConta(codigoConta, valor);
-			new Receita().adicionaSaldoConta(idContaDespesaEditada, valor);
+		Despesa despesa = new Despesa(Integer.parseInt(request.getParameter("id")),
+				Double.parseDouble(request.getParameter("inputValor")), dataPagamento, dataPagamentoEsperado,
+				request.getParameter("inputTipoDespesa"), Integer.parseInt(request.getParameter("inputConta")));
+
+		if (Integer.parseInt(request.getParameter("idContaDespesaEditada")) != Integer
+				.parseInt(request.getParameter("inputConta"))) {
+			Boolean retorno = despesa.debitarSaldoConta(Integer.parseInt(request.getParameter("inputConta")),
+					Double.parseDouble(request.getParameter("inputValor")));
+			if (retorno) {
+				new DespesaDao().AlterarDespesa(despesa);
+				new Receita().adicionaSaldoConta(Integer.parseInt(request.getParameter("idContaDespesaEditada")),
+						Double.parseDouble(request.getParameter("inputValor")));
+				mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa editada com sucesso!</div>";
+				request.setAttribute("mensagem", mensagem);
+				request.setAttribute("despesas", despesas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">"
+						+ "A sua alteração não pode ser executada! A conta selecionada não tem "
+						+ "saldo o suficiente para o débito do valor.</div>";
+				request.setAttribute("mensagem", mensagem);
+				request.setAttribute("despesas", despesas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
+				dispatcher.forward(request, response);
+			}
+
+		} else {
+			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Despesa editada com sucesso!</div>";
+			new DespesaDao().AlterarDespesa(despesa);
+			request.setAttribute("mensagem", mensagem);
+			request.setAttribute("despesas", despesas);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
+			dispatcher.forward(request, response);
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("listarDespesas.jsp");
-		request.setAttribute("mensagem", mensagem);
-		dispatcher.forward(request, response);
 
 	}
 }

@@ -54,24 +54,32 @@ public class modificarReceitasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String excluir = request.getParameter("excluir");
-		String editar = request.getParameter("editar");
-		String id = request.getParameter("idItemExcluido");
-		int codigoConta = Integer.parseInt(request.getParameter("codigoConta"));
-		double valorReceita = Double.parseDouble(request.getParameter("valorReceita"));
-		ArrayList<Conta> contas = null;
-		String mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita excluída com sucesso!</div>";
+		String mensagem = null;
+		ArrayList<Receita> receitas = new Receita().listarReceitas();
 
-		if (excluir != null && id != null) {
-			new Receita().excluir(Integer.valueOf(id));
-			new Despesa().debitarSaldoConta(codigoConta, valorReceita);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
-			request.setAttribute("mensagem", mensagem);
-			dispatcher.forward(request, response);
-		} else if (editar != null && id != null) {
-			Receita receita = new Receita().buscarReceitaPorId(Integer.valueOf(id));
-			contas = new Conta().listarContas();
-			request.setAttribute("listaContas", contas);
+		if (request.getParameter("excluir") != null && request.getParameter("idItemExcluido") != null) {
+
+			if (new Despesa().debitarSaldoConta(Integer.parseInt(request.getParameter("codigoConta")),
+					Double.parseDouble(request.getParameter("valorReceita")))) {
+				new Receita().excluir(Integer.valueOf(request.getParameter("idItemExcluido")));
+				mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita excluída com sucesso!</div>";
+				request.setAttribute("mensagem", mensagem);
+				request.setAttribute("receitas", receitas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">"
+						+ "A receita não pode ser excluída! A conta não possui mais saldo suficiente para debitar o valor."
+						+ "</div>";
+				request.setAttribute("mensagem", mensagem);
+				request.setAttribute("receitas", receitas);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
+				dispatcher.forward(request, response);
+			}
+
+		} else if (request.getParameter("editar") != null && request.getParameter("idItemExcluido") != null) {
+			Receita receita = new Receita().buscarReceitaPorId(Integer.valueOf(request.getParameter("idItemExcluido")));
+			request.setAttribute("listaContas", new Conta().listarContas());
 			request.setAttribute("receita", receita);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("editarReceita.jsp");
 			dispatcher.forward(request, response);

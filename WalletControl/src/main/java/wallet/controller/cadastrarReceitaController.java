@@ -51,52 +51,34 @@ public class cadastrarReceitaController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		SimpleDateFormat formatoDataRecebimento = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatoDataRecebimentoEsperado = new SimpleDateFormat("yyyy-MM-dd");
-		double valor;
-		String parametroDataRecebimento = request.getParameter("inputRecebimento");
-		String parametroDataRecebimentoEsperado = request.getParameter("inputRecebimentoEsperado");
 		Date dataRecebimento = null;
 		Date dataRecebimentoEsperado = null;
-		String descricao = request.getParameter("inputDescricao");
-		String codigoConta = request.getParameter("inputConta");
-		String tipoReceita = request.getParameter("inputTipoReceita");
 		String mensagem;
 
 		try {
-			dataRecebimento = formatoDataRecebimento.parse(parametroDataRecebimento);
+			dataRecebimento = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("inputRecebimento"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			dataRecebimentoEsperado = formatoDataRecebimentoEsperado.parse(parametroDataRecebimentoEsperado);
+			dataRecebimentoEsperado = new SimpleDateFormat("yyyy-MM-dd")
+					.parse(request.getParameter("inputRecebimentoEsperado"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		if (request.getParameter("inputValor") != null && dataRecebimento != null && dataRecebimentoEsperado != null
-				&& descricao != null && codigoConta != null && tipoReceita != null) {
+		Receita receita = new Receita(Double.parseDouble(request.getParameter("inputValor")), dataRecebimento,
+				dataRecebimentoEsperado, request.getParameter("inputDescricao"),
+				Integer.parseInt(request.getParameter("inputConta")), request.getParameter("inputTipoReceita"));
+		receita.salvar();
+		receita.adicionaSaldoConta(Integer.parseInt(request.getParameter("inputConta")),
+				Double.parseDouble(request.getParameter("inputValor")));
 
-			valor = Double.parseDouble(request.getParameter("inputValor"));
-			int codConta = Integer.parseInt(codigoConta);
-
-			Receita receita = new Receita(valor, dataRecebimento, dataRecebimentoEsperado, descricao, codConta,
-					tipoReceita);
-			receita.salvar();
-			receita.adicionaSaldoConta(codConta, valor);
-
-			mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita cadastrada com sucesso!</div>";
-			RequestDispatcher dispatcher = request.getRequestDispatcher("receitas.jsp");
-			request.setAttribute("mensagem", mensagem);
-			dispatcher.forward(request, response);
-
-		} else {
-
-			mensagem = "<div class=\"alert alert-warning mt-3\" role=\"alert\">\r\n"
-					+ "Preencha todas as informações!\r\n" + "</div>";
-
-		}
+		mensagem = "<div class=\"alert alert-success mt-3\" role=\"alert\">Receita cadastrada com sucesso!</div>";
+		RequestDispatcher dispatcher = request.getRequestDispatcher("receitas.jsp");
+		request.setAttribute("mensagem", mensagem);
+		dispatcher.forward(request, response);
 
 	}
 
