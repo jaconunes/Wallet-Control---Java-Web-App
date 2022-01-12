@@ -24,4 +24,8 @@ Criar base de dados no MySQL com o nome **WALLET**. Os dumps com os scripts para
 
 O projeto final está disponível no diretório **WalletControl/**.
 
+<<<<<<< HEAD
 Após toda a configuração e servidor "startado", a aplicação poderá ser acessada através da url [localhost:8080/WalletControl/](http://localhost:8080/WalletControl/ "localhost:8080/WalletControl/").
+=======
+Após toda a configuração e servidor "startado", a aplicação poderá ser acessada através da url [localhost:8080/WalletControl/](http://localhost:8080/WalletControl/ "localhost:8080/WalletControl/").
+>>>>>>> 2920e47fd7bc8192d501b9b0bfcba892247cbc74
