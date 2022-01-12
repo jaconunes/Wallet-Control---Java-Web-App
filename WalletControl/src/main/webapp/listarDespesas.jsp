@@ -12,7 +12,10 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="css/Style.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?ver=4.7.0">
 <title>Wallet Control</title>
@@ -48,7 +51,7 @@
 			<form action="listarDespesas" method="post">
 				<div class="form-row mb-3">
 					<div class="form-group col-md-3">
-						<button class="btn border border-white text-white"
+						<button class="btn bg-transparent border border-white text-white"
 							id="listarTodas" type="submit" name="listarTodas">Listar
 							Todas</button>
 					</div>
@@ -66,7 +69,7 @@
 							<option class="text-dark">Transporte</option>
 							<option class="text-dark">Outros</option>
 						</select>
-						<button class="btn border border-white text-white"
+						<button class="btn bg-transparent border border-white text-white"
 							id="filtroPorTipo" type="submit" name="filtroPorTipo">
 							<i class="fa fa-filter" aria-hidden="true"></i>
 						</button>
@@ -78,7 +81,7 @@
 							class="d-inline m-3" for="inputFiltroPeriodo"> - </label> <input
 							type="date" class="form-control data-filtro d-inline"
 							id="dataFim" name="dataFim" placeholder="Fim">
-						<button class="btn border border-white text-white d-inline"
+						<button class="btn bg-transparent border border-white text-white d-inline"
 							id="filtroPorPeriodo" type="submit" name="filtroPorPeriodo">
 							<i class="fa fa-filter" aria-hidden="true"></i>
 						</button>
@@ -99,55 +102,61 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% 
-                                    String mensagem = (String) request.getAttribute("mensagem");
-                            
-                            		if(mensagem != null){
-                            			out.print(mensagem);
-                            		}
-                            			
-                            		Double totalSoma = 0.0;
-                                
-                                    if(request.getAttribute("despesas") != null){
-                                        List<?> despesas = (List<?>) request.getAttribute("despesas");
-                                        for(int contador = 0; contador <= (despesas.size() - 1); contador++){
-                                            Despesa despesa = (Despesa) despesas.get(contador);
-                                            totalSoma += despesa.getValor();
-                                		%>
+					<%
+					String mensagem = (String) request.getAttribute("mensagem");
+
+					if (mensagem != null) {
+						out.print(mensagem);
+					}
+
+					Double totalSoma = 0.0;
+
+					if (request.getAttribute("despesas") != null) {
+						List<?> despesas = (List<?>) request.getAttribute("despesas");
+						for (int contador = 0; contador <= (despesas.size() - 1); contador++) {
+							Despesa despesa = (Despesa) despesas.get(contador);
+							totalSoma += despesa.getValor();
+					%>
 					<form action="modificarDespesas" method="post">
 						<tr>
 							<th scope="row">
-								<% out.print(despesa.getIdDespesa()); %> <input type="hidden"
+								<%
+								out.print(despesa.getIdDespesa());
+								%> <input type="hidden"
 								name="idItemExcluido"
-								value="<% out.print(despesa.getIdDespesa()); %>">
+								value="<%out.print(despesa.getIdDespesa());%>">
 							</th>
 							<td>
-								<% 
-                                                        DecimalFormat df = new DecimalFormat("###,###.00");
-                                                        out.print("R$ "+ df.format(despesa.getValor())); 
-                                                        %> <input
+								<%
+								DecimalFormat df = new DecimalFormat("###,###.00");
+								out.print("R$ " + df.format(despesa.getValor()));
+								%> <input
 								type="hidden" name="valorDespesa"
-								value="<% out.print(despesa.getValor()); %>">
+								value="<%out.print(despesa.getValor());%>">
 							</td>
 							<td>
-								<% 
-                                                    SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("dd/MM/yyyy");  
-                                                    String strDataPagamento = formatoDataPagamento.format(despesa.getDataPagamento());                                                    
-                                                    out.print(strDataPagamento); 
-                                                    %>
+								<%
+								SimpleDateFormat formatoDataPagamento = new SimpleDateFormat("dd/MM/yyyy");
+								String strDataPagamento = formatoDataPagamento.format(despesa.getDataPagamento());
+								out.print(strDataPagamento);
+								%>
 							</td>
 							<td>
-								<% 
-                                                    SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("dd/MM/yyyy");  
-                                                    String strDataPagamentoEsperado = formatoDataPagamentoEsperado.format(despesa.getDataPagamentoEsperado());                                                    
-                                                    out.print(strDataPagamento);
-                                                    %>
+								<%
+								SimpleDateFormat formatoDataPagamentoEsperado = new SimpleDateFormat("dd/MM/yyyy");
+								String strDataPagamentoEsperado = formatoDataPagamentoEsperado.format(despesa.getDataPagamentoEsperado());
+								out.print(strDataPagamento);
+								%>
 							</td>
 							<td>
-								<% out.print(despesa.getTipoDespesa()); %>
+								<%
+								out.print(despesa.getTipoDespesa());
+								%>
 							</td>
 							<td>
-								<% out.print(despesa.getCodigoConta() + " - " + despesa.buscarContaPorCodigo(despesa.getCodigoConta())); %>
+								<%
+								out.print(despesa.getCodigoConta() + " - " + despesa.buscarContaPorCodigo(despesa.getCodigoConta()));
+								%>
 							</td>
 							<td>
 								<button class="btn-icons" type="submit" name="editar">
@@ -158,27 +167,41 @@
 								<button class="btn-icons" type="submit" name="excluir">
 									<i class="fa fa-trash-o" aria-hidden="true"></i>
 								</button> <input type="hidden" name="codigoConta"
-								value="<% out.print(despesa.getCodigoConta()); %>">
+								value="<%out.print(despesa.getCodigoConta());%>">
 							</td>
 						</tr>
 					</form>
-					<% }} %>
+					<%
+					}
+					}
+					%>
 				</tbody>
 			</table>
 			<div class="form-row">
 				<div class="form-group col-md-12 text-left">
 					<p class="totalsoma vermelho">
 						Total:
-						<% 
-                            		DecimalFormat dfTotal = new DecimalFormat("###,###.00"); 
-                            		out.print("R$ " + dfTotal.format(totalSoma)); %>
+						<%
+					DecimalFormat dfTotal = new DecimalFormat("###,###.00");
+					out.print("R$ " + dfTotal.format(totalSoma));
+					%>
 					</p>
 				</div>
 			</div>
 			</form>
 		</div>
 	</section>
-	<script type='text/javascript' src='js/bootstrap.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>

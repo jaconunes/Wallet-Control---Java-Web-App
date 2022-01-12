@@ -12,7 +12,10 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="css/Style.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?ver=4.7.0">
 <title>Wallet Control</title>
@@ -48,7 +51,7 @@
 			<form action="listarReceitas" method="post">
 				<div class="form-row mb-3">
 					<div class="form-group col-md-3">
-						<button class="btn border border-white text-white"
+						<button class="btn bg-transparent border border-white text-white"
 							id="listarTodas" type="submit" name="listarTodas">Listar
 							Todas</button>
 					</div>
@@ -62,7 +65,7 @@
 							<option class="text-dark">Prêmio</option>
 							<option class="text-dark">Outros</option>
 						</select>
-						<button class="btn border border-white text-white"
+						<button class="btn bg-transparent border border-white text-white"
 							id="filtroPorTipo" type="submit" name="filtroPorTipo">
 							<i class="fa fa-filter" aria-hidden="true"></i>
 						</button>
@@ -74,7 +77,7 @@
 							class="d-inline m-3" for="inputFiltroPeriodo"> - </label> <input
 							type="date" class="form-control data-filtro d-inline"
 							id="dataFim" name="dataFim" placeholder="Fim">
-						<button class="btn border border-white text-white d-inline"
+						<button class="btn bg-transparent border border-white text-white d-inline"
 							id="filtroPorPeriodo" type="submit" name="filtroPorPeriodo">
 							<i class="fa fa-filter" aria-hidden="true"></i>
 						</button>
@@ -96,64 +99,72 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% 
-                                    String mensagem = (String) request.getAttribute("mensagem");
-                            
-                            		if(mensagem != null){
-                            			out.print(mensagem);
-                            		}
-                            			
-                            		Double totalSoma = 0.0;
-                                
-                                    if(request.getAttribute("receitas") != null){
-                                        List<?> receitas = (List<?>) request.getAttribute("receitas");
-                                        for(int contador = 0; contador <= (receitas.size() - 1); contador++){
-                                            Receita receita = (Receita) receitas.get(contador);
-                                            totalSoma += receita.getValorReceita();
-                                		%>
+					<%
+					String mensagem = (String) request.getAttribute("mensagem");
+
+					if (mensagem != null) {
+						out.print(mensagem);
+					}
+
+					Double totalSoma = 0.0;
+
+					if (request.getAttribute("receitas") != null) {
+						List<?> receitas = (List<?>) request.getAttribute("receitas");
+						for (int contador = 0; contador <= (receitas.size() - 1); contador++) {
+							Receita receita = (Receita) receitas.get(contador);
+							totalSoma += receita.getValorReceita();
+					%>
 					<form action="modificarReceitas" method="post">
 						<tr>
 							<th scope="row">
-								<% out.print(receita.getIdReceita()); %> <input type="hidden"
+								<%
+								out.print(receita.getIdReceita());
+								%> <input type="hidden"
 								name="idItemExcluido"
-								value="<% out.print(receita.getIdReceita()); %>">
+								value="<%out.print(receita.getIdReceita());%>">
 							</th>
 							<td>
-								<% 
-                                                        DecimalFormat df = new DecimalFormat("###,###.00");
-                                                        out.print("R$ "+ df.format(receita.getValorReceita())); 
-                                                        %> <input
+								<%
+								DecimalFormat df = new DecimalFormat("###,###.00");
+								out.print("R$ " + df.format(receita.getValorReceita()));
+								%> <input
 								type="hidden" name="valorReceita"
-								value="<% out.print(receita.getValorReceita()); %>">
+								value="<%out.print(receita.getValorReceita());%>">
 							</td>
 							<td>
-								<% 
-                                                    SimpleDateFormat formatoDataRecebimento = new SimpleDateFormat("dd/MM/yyyy");  
-                                                    String strDataRecebimento = formatoDataRecebimento.format(receita.getDataRecebimento());                                                    
-                                                    out.print(strDataRecebimento); 
-                                                    %>
+								<%
+								SimpleDateFormat formatoDataRecebimento = new SimpleDateFormat("dd/MM/yyyy");
+								String strDataRecebimento = formatoDataRecebimento.format(receita.getDataRecebimento());
+								out.print(strDataRecebimento);
+								%>
 							</td>
 							<td>
-								<% 
-                                                    SimpleDateFormat formatoDataRecebimentoEsperado = new SimpleDateFormat("dd/MM/yyyy");  
-                                                    String strDataRecebimentoEsperado = formatoDataRecebimentoEsperado.format(receita.getDataRecebimentoEsperado());                                                    
-                                                    out.print(strDataRecebimento);
-                                                    %>
+								<%
+								SimpleDateFormat formatoDataRecebimentoEsperado = new SimpleDateFormat("dd/MM/yyyy");
+								String strDataRecebimentoEsperado = formatoDataRecebimentoEsperado.format(receita.getDataRecebimentoEsperado());
+								out.print(strDataRecebimento);
+								%>
 							</td>
 							<td>
-								<% out.print(receita.getDescricao()); %>
+								<%
+								out.print(receita.getDescricao());
+								%>
 							</td>
 							<td>
-								<% out.print(receita.getCodigoConta() + " - " + receita.buscarContaPorCodigo(receita.getCodigoConta())); %>
+								<%
+								out.print(receita.getCodigoConta() + " - " + receita.buscarContaPorCodigo(receita.getCodigoConta()));
+								%>
 							</td>
 							<td>
-								<% out.print(receita.getTipoReceita()); %>
+								<%
+								out.print(receita.getTipoReceita());
+								%>
 							</td>
 							<td>
 								<button class="btn-icons" type="submit" name="editar">
 									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 								</button> <input type="hidden" name="codigoConta"
-								value="<% out.print(receita.getCodigoConta()); %>">
+								value="<%out.print(receita.getCodigoConta());%>">
 							</td>
 							<td>
 								<button class="btn-icons" type="submit" name="excluir">
@@ -162,16 +173,20 @@
 							</td>
 						</tr>
 					</form>
-					<% }} %>
+					<%
+					}
+					}
+					%>
 				</tbody>
 			</table>
 			<div class="form-row">
 				<div class="form-group col-md-12 text-left">
 					<p class="totalsoma vermelho">
 						Total:
-						<% 
-                            		DecimalFormat dfTotal = new DecimalFormat("###,###.00"); 
-                            		out.print("R$ " + dfTotal.format(totalSoma)); %>
+						<%
+					DecimalFormat dfTotal = new DecimalFormat("###,###.00");
+					out.print("R$ " + dfTotal.format(totalSoma));
+					%>
 					</p>
 				</div>
 
@@ -179,7 +194,17 @@
 			</form>
 		</div>
 	</section>
-	<script type='text/javascript' src='js/bootstrap.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>

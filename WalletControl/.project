@@ -28,46 +28,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/main/webapp/css/all.css</name>
-			<type>1</type>
-			<location>E:/xampp/htdocs/jackwebdesign.dev.br/wp-content/themes/jackwebdesign/assets/css/all.css</location>
-		</link>
-		<link>
-			<name>src/main/webapp/css/bootstrap.min.css</name>
-			<type>1</type>
-			<location>E:/Downloads/bootstrap.min.css</location>
-		</link>
-		<link>
-			<name>src/main/webapp/img/add-receita.png</name>
-			<type>1</type>
-			<location>E:/Downloads/add-receita.png</location>
-		</link>
-		<link>
-			<name>src/main/webapp/img/bank.png</name>
-			<type>1</type>
-			<location>E:/Downloads/bank.png</location>
-		</link>
-		<link>
-			<name>src/main/webapp/img/despesas.png</name>
-			<type>1</type>
-			<location>E:/Downloads/despesas.png</location>
-		</link>
-		<link>
-			<name>src/main/webapp/img/lista-receitas.png</name>
-			<type>1</type>
-			<location>E:/Downloads/lista-receitas.png</location>
-		</link>
-		<link>
-			<name>src/main/webapp/img/receitas.png</name>
-			<type>1</type>
-			<location>E:/Downloads/receitas.png</location>
-		</link>
-		<link>
-			<name>src/main/webapp/js/bootstrap.min.js</name>
-			<type>1</type>
-			<location>E:/xampp/htdocs/jackwebdesign.dev.br/wp-content/themes/jackwebdesign/assets/js/bootstrap.min.js</location>
-		</link>
-	</linkedResources>
 </projectDescription>
