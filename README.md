@@ -1,6 +1,6 @@
 # DesafioPubFuture - Wallet Control
 
-Wallet Control é uma aplicação web desenvolvida na linguagem Java com JSP, utilizando o modelo de estrutura MVC, e banco de dados relacional MySQL.
+Wallet Control é uma aplicação web desenvolvida na linguagem Java com JSP, sem uso de Frameworks, utilizando o modelo de estrutura MVC, e banco de dados relacional MySQL.
 Projeto desenvolvido para o Desafio PubFuture da Pública Tecnologia.
 
 ## Tecnologias
