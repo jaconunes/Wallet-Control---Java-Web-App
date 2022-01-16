@@ -21,6 +21,8 @@ Auxiliar o usuário com o controle de finanças pessoais.
 
 - Conector (Driver) do MySQL versão 5.1.47 disponível no diretório **mysql-connector/**.
 
+- Preencher com usuário e senha, o segundo e terceiro parâmetros (USER e PASSWORD) do método na [MySqlConnection](https://github.com/jaconunes/DesafioPubFuture/blob/e4033b668350ab32656380654d4ce360a824e6e6/WalletControl/src/main/java/wallet/dao/MySqlConnection.java#L28 "MySqlConnection")
+
 - Ter o Servidor localhost Apache Tomcat versão 10.0.14 instalado na IDE, que normalmente disponibiliza o acesso à aplicação através da porta 8080.
 
 - Criar base de dados no MySQL com o nome **WALLET**. Os dumps com os scripts para criação das tabelas estão no diretório **Dump20220111/**, que devem ser executados na sequência **"wallet_conta.sql"**, depois **"wallet_receita.sql"** e por fim o **"wallet_despesa.sql"**, evitando possíveis erros com foreign keys. No mesmo diretório, o diagrama relacional das tabelas.
