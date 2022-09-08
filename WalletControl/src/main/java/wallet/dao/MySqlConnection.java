@@ -25,7 +25,7 @@ public class MySqlConnection {
 		}
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wallet?useSSL=false", 
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wallet?allowPublicKeyRetrieval=true&useSSL=false", 
 					"wallet", "Wallet*123");
 		} catch (Exception e) {
 			e.printStackTrace();

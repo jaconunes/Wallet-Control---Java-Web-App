@@ -29,16 +29,13 @@ public class ReceitaDao {
 		String sql = "INSERT INTO RECEITA VALUES (null,?,?,?,?,?,?)";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
-		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
-		String strDataRecebimento = formatoData.format(receita.getDataRecebimento());
-		String strDataRecebimentoEsperado = formatoData.format(receita.getDataRecebimentoEsperado());
 
 		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setDouble(1, receita.getValorReceita());
-			pStatement.setString(2, strDataRecebimento);
-			pStatement.setString(3, strDataRecebimentoEsperado);
+			pStatement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(receita.getDataRecebimento()));
+			pStatement.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(receita.getDataRecebimentoEsperado()));
 			pStatement.setString(4, receita.getDescricao());
 			pStatement.setInt(5, receita.getCodigoConta());
 			pStatement.setString(6, receita.getTipoReceita());
@@ -316,15 +313,13 @@ public class ReceitaDao {
 				+ "tipoReceita = ? WHERE idReceita = ?";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
-		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
-		String strDataRecebimento = formatoData.format(receita.getDataRecebimento());
-		String strDataRecebimentoEsperado = formatoData.format(receita.getDataRecebimentoEsperado());
+		
 		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setDouble(1, receita.getValorReceita());
-			pStatement.setString(2, strDataRecebimento);
-			pStatement.setString(3, strDataRecebimentoEsperado);
+			pStatement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(receita.getDataRecebimento()));			
+			pStatement.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(receita.getDataRecebimentoEsperado()));
 			pStatement.setString(4, receita.getDescricao());
 			pStatement.setInt(5, receita.getCodigoConta());
 			pStatement.setString(6, receita.getTipoReceita());

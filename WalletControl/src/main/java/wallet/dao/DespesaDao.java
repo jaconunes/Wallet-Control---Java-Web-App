@@ -29,16 +29,13 @@ public class DespesaDao {
 		String sql = "INSERT INTO DESPESA VALUES (null,?,?,?,?,?)";
 		PreparedStatement pStatement = null;
 		Connection conn = null;
-		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
-		String strDataPagamento = formatoData.format(despesa.getDataPagamento());
-		String strDataPagamentoEsperado = formatoData.format(despesa.getDataPagamentoEsperado());
 
 		try {
 			conn = new MySqlConnection().getConnection();
 			pStatement = conn.prepareStatement(sql);
 			pStatement.setDouble(1, despesa.getValor());
-			pStatement.setString(2, strDataPagamento);
-			pStatement.setString(3, strDataPagamentoEsperado);
+			pStatement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(despesa.getDataPagamento()));
+			pStatement.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(despesa.getDataPagamentoEsperado()));
 			pStatement.setString(4, despesa.getTipoDespesa());
 			pStatement.setInt(5, despesa.getCodigoConta());
 			pStatement.execute();

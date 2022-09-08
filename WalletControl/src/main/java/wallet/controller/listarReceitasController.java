@@ -65,7 +65,7 @@ public class listarReceitasController extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("filtroPorPeriodo") != null) {
 			receitas = new Receita().buscarReceitaPorPeriodo(request.getParameter("dataInicio"),
-					request.getParameter("dataFim"));
+			request.getParameter("dataFim"));
 			request.setAttribute("receitas", receitas);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("listarReceitas.jsp");
 			dispatcher.forward(request, response);
